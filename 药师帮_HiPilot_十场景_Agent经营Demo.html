@@ -75,34 +75,36 @@
       max-width: var(--max);
       width: 100%;
       margin: 0 auto;
-      padding: 14px 28px 70px;
+      padding: 12px 28px 56px;
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px;
+      gap: 12px;
     }
     .scene-card {
+      position: relative;
       background: #fff;
       border: 1px solid var(--line);
+      border-top: 4px solid var(--scene-color, var(--accent));
       border-radius: 18px;
       overflow: hidden;
       cursor: pointer;
       transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
-      min-height: 328px;
+      height: 258px;
       display: flex;
       flex-direction: column;
     }
-    .scene-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: var(--accent); }
-    .scene-visual { height: 88px; position: relative; padding: 16px; overflow: hidden; border-bottom: 1px solid rgba(222,222,217,.7); }
-    .scene-visual svg { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .56; transform: translateX(16%) scale(1.04); transform-origin: center; }
+    .scene-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: var(--scene-color, var(--accent)); }
+    .scene-visual { height: 62px; position: relative; padding: 12px 14px; overflow: hidden; border-bottom: 1px solid rgba(222,222,217,.7); flex: none; }
+    .scene-visual svg { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .42; transform: translateX(22%) scale(1.02); transform-origin: center; }
     .rank {
       position: absolute;
-      top: 13px;
+      top: 12px;
       left: 14px;
       z-index: 1;
-      font-size: 12px;
+      font-size: 11.5px;
       letter-spacing: .08em;
       font-weight: 850;
-      color: rgba(16,16,16,.55);
+      color: var(--scene-color, rgba(16,16,16,.55));
       background: rgba(255,255,255,.78);
       border: 1px solid rgba(222,222,217,.72);
       border-radius: 999px;
@@ -111,26 +113,27 @@
     }
     .score {
       position: absolute;
-      top: 12px;
+      top: 11px;
       right: 12px;
       z-index: 1;
       font-size: 11.5px;
-      color: var(--green);
+      color: var(--scene-color, var(--green));
       background: rgba(255,255,255,.82);
-      border: 1px solid rgba(17,132,91,.16);
+      border: 1px solid color-mix(in srgb, var(--scene-color, var(--green)) 22%, transparent);
       padding: 5px 9px;
       border-radius: 999px;
       font-weight: 760;
     }
-    .scene-body { padding: 17px 18px 18px; display: grid; grid-template-columns: .92fr 1.08fr; gap: 10px 18px; flex: 1; align-content: start; }
-    .unit { font-size: 12px; letter-spacing: .1em; font-weight: 850; }
-    .scene-body h2 { font-size: 21px; line-height: 1.16; letter-spacing: -.035em; font-weight: 770; }
-    .reason, .boundary, .trigger { font-size: 12.5px; line-height: 1.58; color: var(--muted); }
+    .scene-body { padding: 13px 16px 15px; display: grid; grid-template-columns: .9fr 1.1fr; gap: 7px 16px; flex: 1; align-content: start; min-height: 0; }
+    .unit { font-size: 11.5px; letter-spacing: .1em; font-weight: 850; }
+    .scene-body h2 { font-size: 19px; line-height: 1.13; letter-spacing: -.035em; font-weight: 770; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .reason, .boundary, .trigger { font-size: 12px; line-height: 1.48; color: var(--muted); display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; }
     .scene-body .unit, .scene-body h2, .scene-body .reason, .scene-body .kpi { grid-column: 1; }
     .scene-body .boundary, .scene-body .trigger { grid-column: 2; }
-    .boundary { color: #3c3c39; background: var(--card); border-radius: 10px; padding: 10px 11px; align-self: start; }
-    .trigger { color: #7a3b23; }
-    .kpi { margin-top: 8px; padding-top: 11px; border-top: 1px solid var(--line); display: flex; gap: 9px; align-items: center; font-size: 13px; font-weight: 760; }
+    .reason { -webkit-line-clamp: 2; }
+    .boundary { color: #3c3c39; background: var(--card); border-radius: 10px; padding: 8px 10px; align-self: start; -webkit-line-clamp: 3; }
+    .trigger { color: #7a3b23; -webkit-line-clamp: 2; }
+    .kpi { margin-top: 5px; padding-top: 8px; border-top: 1px solid var(--line); display: flex; gap: 8px; align-items: center; font-size: 12.5px; font-weight: 760; line-height: 1.35; }
     .kpi i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
 
     .footer {
@@ -252,7 +255,7 @@
 
     @media (max-width: 1320px) {
       .cards { grid-template-columns: 1fr; }
-      .scene-card { min-height: 0; }
+      .scene-card { height: 236px; }
       .workspace { grid-template-columns: minmax(0,1fr) 310px; }
       .rail { display: none; }
     }
@@ -263,6 +266,7 @@
       .hero-inner { grid-template-columns: 1fr; gap: 24px; }
       .rank-note { grid-template-columns: 1fr; }
       .cards { grid-template-columns: 1fr; padding-bottom: 70px; }
+      .scene-card { height: auto; min-height: 0; }
       .scene-body { grid-template-columns: 1fr; }
       .scene-body .unit, .scene-body h2, .scene-body .reason, .scene-body .kpi, .scene-body .boundary, .scene-body .trigger { grid-column: 1; }
       .footer { flex-direction: column; align-items: flex-start; margin-top: -44px; }
@@ -346,7 +350,7 @@
 </div>
 
 <script>
-const COLORS = ["#e85d31", "#3164d8", "#11845b", "#6d4aff", "#9a5b00", "#c7487a", "#0e7490", "#8a5cf6", "#4b5563", "#101010"];
+const COLORS = ["#e85d31", "#2f6fd6", "#16805a", "#7a58d6", "#b46a00", "#c24b74", "#13839b", "#6f6fd8", "#5f6773", "#171717"];
 const SCENES = [
   {
     rank: 1,
@@ -673,8 +677,8 @@ function illustration(scene) {
 
 function renderCards() {
   cards.innerHTML = SCENES.map((scene, index) => `
-    <article class="scene-card" onclick="enterFlow(${index})" tabindex="0" onkeydown="if(event.key==='Enter')enterFlow(${index})">
-      <div class="scene-visual" style="background:linear-gradient(135deg, ${scene.accent}1f, ${scene.accent}08)">
+    <article class="scene-card" style="--scene-color:${scene.accent}" onclick="enterFlow(${index})" tabindex="0" onkeydown="if(event.key==='Enter')enterFlow(${index})">
+      <div class="scene-visual" style="background:linear-gradient(135deg, ${scene.accent}22, ${scene.accent}0b 55%, #fff 100%)">
         ${illustration(scene)}
         <span class="rank">P${scene.rank} · ${esc(scene.unit)}</span>
         <span class="score">${esc(scene.score.replace(/^P\\d+ · /, ""))}</span>

@@ -108,10 +108,11 @@
     .section { padding: 92px 0; }
     .section.soft { background: var(--soft); }
     .section.dark { background: var(--ink); color: var(--white); }
-    .section-head { display: grid; grid-template-columns: .72fr 1.28fr; gap: 56px; align-items: start; margin-bottom: 42px; }
-    .section-index { color: var(--orange); font-size: 13px; letter-spacing: .12em; text-transform: uppercase; font-weight: 700; }
-    h2 { font-size: clamp(36px, 4.6vw, 58px); line-height: 1.05; letter-spacing: -.05em; margin-bottom: 18px; font-weight: 680; }
-    .section-lead { color: var(--muted); font-size: 17px; line-height: 1.65; max-width: 760px; }
+    .section-head { display: grid; grid-template-columns: .66fr 1.34fr; gap: 48px; align-items: start; margin-bottom: 38px; }
+    .section-index { color: var(--orange); font-size: 15px; letter-spacing: .1em; text-transform: uppercase; font-weight: 760; white-space: nowrap; }
+    h2 { font-size: clamp(28px, 2.7vw, 38px); line-height: 1.06; letter-spacing: -.04em; margin-bottom: 14px; font-weight: 680; }
+    .section-head h2 { white-space: nowrap; }
+    .section-lead { color: var(--muted); font-size: 15.5px; line-height: 1.58; max-width: 820px; }
     .dark .section-lead { color: #bcbcb7; }
     .manager-note { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 30px 0; display: grid; grid-template-columns: 1fr 2fr; gap: 42px; }
     .manager-note strong { font-size: 20px; }
@@ -179,7 +180,7 @@
     .tree-branch { height: 64px; }
     .tree-lever-link { height: 52px; }
     .tree-branch::before { content: ""; position: absolute; left: 50%; top: 0; width: 2px; height: 30px; background: #c8c8c2; }
-    .tree-branch::after { content: ""; position: absolute; left: 10.5%; right: 10.5%; top: 30px; height: 2px; background: #c8c8c2; }
+    .tree-branch::after { content: ""; position: absolute; left: 12.5%; right: 12.5%; top: 30px; height: 2px; background: #c8c8c2; }
     .tree-branch span, .tree-lever-link span { position: absolute; width: 2px; background: #c8c8c2; }
     .tree-branch span { top: 30px; height: 34px; }
     .tree-branch .b1 { left: 12.5%; }
@@ -275,7 +276,7 @@
     .phase p { color: var(--muted); font-size: 14px; }
     .phase .gate { margin-top: 24px; font-weight: 650; font-size: 13px; }
 
-    .value-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 80px; align-items: start; }
+    .value-grid { display: grid; grid-template-columns: 1.08fr .92fr; gap: 58px; align-items: start; }
     .calculator { border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); overflow: hidden; }
     .calc-row { padding: 24px; border-bottom: 1px solid var(--line); }
     .calc-row:last-child { border-bottom: 0; }
@@ -287,6 +288,7 @@
     .calc-result strong { display: block; font-size: 35px; letter-spacing: -.035em; }
     .calc-result span { color: #aaa9a4; font-size: 12px; }
     .calc-note { color: var(--muted); font-size: 12px; margin-top: 12px; }
+    .value-copy { margin-top: 28px; }
     .value-copy h3 { font-size: 30px; letter-spacing: -.035em; }
     .value-list { border-top: 1px solid var(--line); }
     .value-item { display: grid; grid-template-columns: 105px 1fr; gap: 20px; padding: 21px 0; border-bottom: 1px solid var(--line); }
@@ -349,6 +351,7 @@
       .proof:first-child { border-top: 0; }
       .section { padding: 82px 0; }
       .section-head { gap: 24px; }
+      .section-head h2 { white-space: normal; }
       .manager-note p { font-size: 20px; }
       .formula-trigger { grid-template-columns: 1fr 26px; gap: 8px; }
       .formula-name { grid-column: 1; }
@@ -661,20 +664,19 @@
           <div class="section-index">06 / 价值测算</div>
           <h2 style="margin-top:22px">把 ROI 算在项目开始之前</h2>
           <p class="section-lead">下方仅是基于 2025 年公开数据的敏感性测算，不是收益承诺。正式目标需在试点第 2 周按内部数据重算。</p>
+          <div class="value-copy">
+            <div class="value-list">
+              <div class="value-item"><b>验收公式</b><p>年度净价值 = 增量毛利 + 降本 + 资金占用收益 − 软件、实施、算力与内部投入</p></div>
+              <div class="value-item"><b>价值护栏</b><p>服务水平不得下降；资金释放不等同于利润；场景间替代效应必须扣除。</p></div>
+              <div class="value-item"><b>扩展条件</b><p>至少 1 个财务指标、2 个运营指标得到财务与业务共同确认。</p></div>
+            </div>
+            <p class="calc-note">口径：自营收入约 200.66 亿元；估算自营销售成本约 185.2 亿元。实际结果受品类结构、季节、区域和执行采纳率影响。</p>
+          </div>
         </div>
         <div class="calculator" aria-label="经营价值敏感性计算器">
           <div class="calc-row"><div class="calc-label"><b>自营毛利率改善</b><output id="marginOut">0.10 个百分点</output></div><input id="marginRange" type="range" min="0" max="0.5" value="0.1" step="0.05" aria-label="自营毛利率改善"></div>
           <div class="calc-row"><div class="calc-label"><b>库存周转缩短</b><output id="daysOut">1.0 天</output></div><input id="daysRange" type="range" min="0" max="5" value="1" step="0.5" aria-label="库存周转缩短天数"></div>
           <div class="calc-result"><div><strong id="grossValue">2,007 万</strong><span>年化毛利敏感性</span></div><div><strong id="cashValue">5,075 万</strong><span>营运资金释放敏感性</span></div></div>
-        </div>
-        <div></div>
-        <div class="value-copy">
-          <div class="value-list">
-            <div class="value-item"><b>验收公式</b><p>年度净价值 = 增量毛利 + 降本 + 资金占用收益 − 软件、实施、算力与内部投入</p></div>
-            <div class="value-item"><b>价值护栏</b><p>服务水平不得下降；资金释放不等同于利润；场景间替代效应必须扣除。</p></div>
-            <div class="value-item"><b>扩展条件</b><p>至少 1 个财务指标、2 个运营指标得到财务与业务共同确认。</p></div>
-          </div>
-          <p class="calc-note">口径：自营收入约 200.66 亿元；估算自营销售成本约 185.2 亿元。实际结果受品类结构、季节、区域和执行采纳率影响。</p>
         </div>
       </div>
     </section>

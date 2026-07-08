@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>药师帮 × HiPilot｜AI 经营方案入口</title>
+  <style>
+    :root { --ink:#101010; --muted:#666663; --line:#deded9; --orange:#e85d31; --soft:#f7f7f5; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; background: var(--soft); color: var(--ink); font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; display: grid; place-items: center; }
+    main { width: min(1080px, calc(100% - 40px)); }
+    .brand { font-weight: 760; letter-spacing: -.03em; margin-bottom: 36px; font-size: 22px; }
+    .brand span { color: var(--orange); font-weight: 500; }
+    h1 { margin: 0 0 18px; font-size: clamp(42px, 7vw, 86px); line-height: .98; letter-spacing: -.065em; max-width: 860px; }
+    p { margin: 0; color: var(--muted); font-size: 18px; line-height: 1.7; max-width: 760px; }
+    .links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 48px; }
+    a { color: inherit; text-decoration: none; background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 26px; min-height: 188px; display: flex; flex-direction: column; justify-content: space-between; transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease; }
+    a:hover { transform: translateY(-3px); border-color: var(--orange); box-shadow: 0 18px 50px rgba(0,0,0,.08); }
+    b { display: block; font-size: 25px; letter-spacing: -.03em; margin-bottom: 12px; }
+    small { color: var(--muted); font-size: 14px; line-height: 1.6; }
+    .arrow { color: var(--orange); font-size: 22px; margin-top: 24px; }
+    @media (max-width: 760px) { body { place-items: start; padding: 34px 0; } .links { grid-template-columns: 1fr; } a { min-height: 160px; } }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="brand">HiPilot <span>×</span> 药师帮</div>
+    <h1>AI 经营提效方案入口</h1>
+    <p>用于管理层外发和现场演示：先看整体落地方案，再进入 10 个高优先级经营场景的 Agent 作战室 Demo。</p>
+    <div class="links">
+      <a href="药师帮_HiPilot_AI经营落地方案.html">
+        <span><b>整体落地方案</b><small>六大经营命题、经营利润驱动树、场景 × 指标矩阵、90 天试点路线。</small></span>
+        <span class="arrow">进入方案 →</span>
+      </a>
+      <a href="药师帮_HiPilot_十场景_Agent经营Demo.html">
+        <span><b>10 场景 Agent Demo</b><small>按 AI 可提效优先级排列的 10 个经营场景，支持点击 / 空格逐步演示。</small></span>
+        <span class="arrow">进入 Demo →</span>
+      </a>
+    </div>
+  </main>
+</body>
+</html>

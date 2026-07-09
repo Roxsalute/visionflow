@@ -75,7 +75,7 @@
       max-width: var(--max);
       width: 100%;
       margin: 0 auto;
-      padding: 10px 28px 14px;
+      padding: 10px 28px 28px;
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 10px;
@@ -134,7 +134,7 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    .scene-body { padding: 8px 16px 10px; display: grid; grid-template-columns: .92fr 1.08fr; gap: 16px; flex: 1; min-height: 0; align-items: center; }
+    .scene-body { margin-top: 48px; padding: 10px 16px 12px; display: grid; grid-template-columns: .92fr 1.08fr; gap: 16px; flex: 1; min-height: 0; align-items: center; }
     .scene-main, .scene-side { min-width: 0; }
     .scene-main { display: flex; flex-direction: column; justify-content: center; gap: 5px; }
     .scene-side { display: flex; flex-direction: column; justify-content: center; gap: 8px; align-self: center; width: 100%; }
@@ -150,7 +150,7 @@
     .footer {
       max-width: var(--max);
       width: 100%;
-      margin: -14px auto 0;
+      margin: 8px auto 0;
       padding: 0 28px 12px;
       display: flex;
       justify-content: space-between;
@@ -278,10 +278,10 @@
       .rank-note { grid-template-columns: 1fr; }
       .cards { grid-template-columns: 1fr; padding-bottom: 70px; }
       .scene-card { height: auto; min-height: 0; }
-      .scene-body { grid-template-columns: 1fr; padding-top: 48px; }
+      .scene-body { grid-template-columns: 1fr; margin-top: 48px; padding-top: 10px; }
       .scene-main { height: auto; }
       .kpi { margin-top: 2px; }
-      .footer { flex-direction: column; align-items: flex-start; margin-top: -44px; padding-bottom: 24px; }
+      .footer { flex-direction: column; align-items: flex-start; margin-top: 10px; padding-bottom: 24px; }
       .workspace { grid-template-columns: 1fr; min-height: 0; }
       .chat { overflow: visible; padding-right: 0; }
       .side { order: -1; overflow: visible; }
@@ -315,7 +315,7 @@
     <div class="footer">
       <span>说明：页面中的经营数据为基于公开资料构造的模拟演示数据，不代表药师帮内部真实经营数据；收益目标为试点测算口径，不构成承诺。</span>
       <div class="home-actions">
-        <a class="btn-link" href="药师帮_HiPilot_经营卡片案例_自营区域品类门店.html">启动经营诊断</a>
+        <a class="btn-link" href="药师帮_HiPilot_经营卡片案例_自营区域品类门店.html">经营卡片案例入口</a>
       </div>
     </div>
   </main>

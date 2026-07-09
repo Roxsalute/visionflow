@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>药师帮 × HiPilot｜经营卡片案例：自营区域品类与门店诊断</title>
+<style>
+  :root {
+    --ink: #101010;
+    --muted: #66645f;
+    --soft: #8f8b84;
+    --bg: #f7f7f5;
+    --card: #ffffff;
+    --line: #e7e2da;
+    --accent: #e85d31;
+    --accent-soft: #fff0ea;
+    --navy: #142238;
+    --green: #2d8659;
+    --amber: #c9892b;
+    --red: #b83a2e;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.5;
+  }
+
+  a { color: inherit; text-decoration: none; }
+  .page { min-height: 100vh; }
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    backdrop-filter: blur(18px);
+    background: rgba(247, 247, 245, .82);
+    border-bottom: 1px solid rgba(16,16,16,.08);
+  }
+  .nav-inner {
+    max-width: 1220px;
+    margin: 0 auto;
+    padding: 14px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .brand b {
+    color: var(--ink);
+    letter-spacing: 0;
+    text-transform: none;
+  }
+  .mark {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ink);
+    color: white;
+    font-size: 12px;
+    font-weight: 800;
+  }
+  .nav-actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 7px 12px;
+    font-size: 12px;
+    color: var(--muted);
+    background: rgba(255,255,255,.72);
+  }
+  .pill.hot { background: var(--ink); color: white; border-color: var(--ink); }
+
+  .hero {
+    max-width: 1220px;
+    margin: 0 auto;
+    padding: 76px 24px 42px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.12fr) 420px;
+    gap: 48px;
+    align-items: end;
+  }
+  .eyebrow {
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 26px;
+    height: 2px;
+    background: var(--accent);
+  }
+  h1 {
+    margin: 0;
+    font-size: clamp(42px, 6vw, 76px);
+    line-height: .98;
+    letter-spacing: -0.06em;
+    max-width: 780px;
+  }
+  .lead {
+    margin: 24px 0 0;
+    max-width: 760px;
+    font-size: 18px;
+    line-height: 1.75;
+    color: var(--muted);
+  }
+  .hero-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    padding: 22px;
+    box-shadow: 0 22px 60px rgba(20,34,56,.08);
+  }
+  .hero-card h2 {
+    margin: 0 0 18px;
+    font-size: 18px;
+    letter-spacing: -.03em;
+  }
+  .mini-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .mini {
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 14px;
+    min-height: 90px;
+    background: linear-gradient(180deg, #fff, #fbfaf8);
+  }
+  .mini b { display: block; font-size: 22px; letter-spacing: -.04em; margin-bottom: 4px; }
+  .mini span { display: block; color: var(--muted); font-size: 12px; line-height: 1.45; }
+
+  .section {
+    max-width: 1220px;
+    margin: 0 auto;
+    padding: 34px 24px;
+  }
+  .section-head {
+    display: grid;
+    grid-template-columns: 220px minmax(0,1fr);
+    gap: 36px;
+    align-items: start;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 18px;
+  }
+  .section-kicker {
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: .12em;
+  }
+  .section-title {
+    margin: 0;
+    font-size: clamp(26px, 3vw, 42px);
+    line-height: 1.1;
+    letter-spacing: -.045em;
+  }
+  .section-desc {
+    margin: 12px 0 0;
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.8;
+    max-width: 840px;
+  }
+
+  .board {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 28px;
+    overflow: hidden;
+    box-shadow: 0 18px 50px rgba(20,34,56,.07);
+  }
+  .board-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    align-items: center;
+    padding: 18px 22px;
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, #fff, #faf9f6);
+  }
+  .board-title {
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: -.02em;
+  }
+  .board-note { color: var(--soft); font-size: 12px; }
+
+  .table-wrap { overflow-x: auto; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 980px;
+  }
+  th, td {
+    padding: 13px 14px;
+    border-bottom: 1px solid var(--line);
+    text-align: left;
+    vertical-align: top;
+    font-size: 13px;
+  }
+  th {
+    color: var(--soft);
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    background: #fbfaf8;
+    font-weight: 800;
+  }
+  td strong { font-size: 15px; letter-spacing: -.02em; }
+  .rank {
+    display: inline-flex;
+    width: 24px;
+    height: 24px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--ink);
+    color: white;
+    font-weight: 800;
+    font-size: 12px;
+  }
+  .rank.orange { background: var(--accent); }
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    background: #f1eee8;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .tag.orange { background: var(--accent-soft); color: var(--accent); }
+  .tag.green { background: #e8f3ed; color: var(--green); }
+  .tag.amber { background: #fff3df; color: var(--amber); }
+  .tag.red { background: #fde8e4; color: var(--red); }
+  .num { font-variant-numeric: tabular-nums; font-weight: 760; }
+  .muted { color: var(--muted); }
+  .small { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  .split {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 420px;
+    gap: 18px;
+    align-items: stretch;
+  }
+  .detail-card {
+    background: var(--navy);
+    color: white;
+    border-radius: 28px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    min-height: 100%;
+  }
+  .detail-card .muted { color: rgba(255,255,255,.68); }
+  .detail-title {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: flex-start;
+  }
+  .detail-title h3 {
+    margin: 0;
+    font-size: 25px;
+    line-height: 1.15;
+    letter-spacing: -.04em;
+  }
+  .score {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    flex-shrink: 0;
+    box-shadow: 0 14px 38px rgba(232,93,49,.28);
+  }
+  .score b { font-size: 24px; line-height: 1; }
+  .score span { font-size: 10px; opacity: .82; }
+  .detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .metric {
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 16px;
+    padding: 13px;
+    background: rgba(255,255,255,.06);
+  }
+  .metric b { display: block; font-size: 22px; letter-spacing: -.03em; }
+  .metric span { display: block; margin-top: 3px; color: rgba(255,255,255,.68); font-size: 12px; line-height: 1.45; }
+  .action-list {
+    display: grid;
+    gap: 10px;
+  }
+  .action {
+    display: grid;
+    grid-template-columns: 26px minmax(0,1fr);
+    gap: 10px;
+    align-items: start;
+    padding: 12px;
+    border-radius: 16px;
+    background: rgba(255,255,255,.07);
+    border: 1px solid rgba(255,255,255,.12);
+  }
+  .action i {
+    display: inline-flex;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    background: rgba(232,93,49,.22);
+    color: #ffb59d;
+    font-style: normal;
+    font-size: 12px;
+    font-weight: 800;
+  }
+  .action b { display: block; margin-bottom: 3px; font-size: 13px; }
+  .action span { display: block; color: rgba(255,255,255,.68); font-size: 12px; line-height: 1.55; }
+
+  .placeholder-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+  .placeholder {
+    border: 1px dashed rgba(16,16,16,.18);
+    border-radius: 24px;
+    padding: 22px;
+    background: rgba(255,255,255,.62);
+  }
+  .placeholder b { display: block; font-size: 17px; margin-bottom: 8px; }
+  .placeholder p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.7; }
+  .strategy-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+  }
+  .strategy-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 22px;
+    padding: 18px;
+    min-height: 260px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .strategy-card h3 {
+    margin: 10px 0 8px;
+    font-size: 18px;
+    line-height: 1.2;
+    letter-spacing: -.035em;
+  }
+  .strategy-card p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.65;
+  }
+  .strategy-meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .strategy-meta div {
+    border-radius: 14px;
+    background: #fbfaf8;
+    border: 1px solid var(--line);
+    padding: 10px;
+  }
+  .strategy-meta b { display: block; font-size: 18px; letter-spacing: -.035em; }
+  .strategy-meta span { display: block; margin-top: 2px; font-size: 11px; color: var(--muted); line-height: 1.35; }
+  .o2o-panel {
+    display: grid;
+    grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr);
+    gap: 18px;
+    margin-top: 18px;
+  }
+  .feed-card {
+    background: var(--navy);
+    color: white;
+    border-radius: 28px;
+    padding: 22px;
+  }
+  .feed-card h3, .saas-card h3, .forecast-card h3 {
+    margin: 0 0 14px;
+    font-size: 20px;
+    letter-spacing: -.04em;
+  }
+  .feed-list { display: grid; gap: 10px; }
+  .feed-item {
+    display: grid;
+    grid-template-columns: 90px minmax(0, 1fr) 70px;
+    gap: 10px;
+    align-items: center;
+    border: 1px solid rgba(255,255,255,.13);
+    background: rgba(255,255,255,.06);
+    border-radius: 14px;
+    padding: 10px;
+    font-size: 12px;
+  }
+  .feed-item b { font-size: 14px; }
+  .feed-item span { color: rgba(255,255,255,.68); line-height: 1.4; }
+  .feed-item em { color: #ffb59d; font-style: normal; font-weight: 800; text-align: right; }
+  .saas-card, .forecast-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 28px;
+    padding: 22px;
+  }
+  .suggestions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .suggestion {
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 13px;
+    background: #fbfaf8;
+  }
+  .suggestion b { display: block; margin-bottom: 4px; font-size: 13px; }
+  .suggestion span { color: var(--muted); font-size: 12px; line-height: 1.55; }
+  .matrix-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 390px;
+    gap: 18px;
+    align-items: stretch;
+  }
+  .matrix-table table { min-width: 1040px; }
+  .spark {
+    width: 120px;
+    height: 36px;
+    display: block;
+  }
+  .trend-stack { display: grid; gap: 14px; }
+  .chart {
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 14px;
+    background: linear-gradient(180deg, #fff, #fbfaf8);
+  }
+  .chart-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: baseline;
+    margin-bottom: 8px;
+  }
+  .chart-head b { font-size: 14px; }
+  .chart-head span { color: var(--muted); font-size: 11px; }
+  .line-chart {
+    width: 100%;
+    height: 128px;
+    display: block;
+  }
+  .legend {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 11px;
+  }
+  .legend i {
+    display: inline-block;
+    width: 18px;
+    height: 3px;
+    border-radius: 99px;
+    margin-right: 5px;
+    vertical-align: middle;
+  }
+  .legend .actual { background: var(--ink); }
+  .legend .predict { background: var(--accent); }
+  .disclaimer {
+    max-width: 1220px;
+    margin: 20px auto 64px;
+    padding: 0 24px;
+    color: var(--soft);
+    font-size: 12px;
+    line-height: 1.7;
+  }
+
+  @media (max-width: 980px) {
+    .hero, .section-head, .split, .o2o-panel, .matrix-layout { grid-template-columns: 1fr; }
+    .hero { padding-top: 54px; }
+    .nav-inner { align-items: flex-start; flex-direction: column; }
+    .placeholder-grid, .strategy-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 640px) {
+    .hero, .section { padding-left: 18px; padding-right: 18px; }
+    h1 { font-size: 42px; }
+    .lead { font-size: 16px; }
+    .mini-grid, .detail-grid, .suggestions { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <nav class="nav">
+    <div class="nav-inner">
+      <a class="brand" href="药师帮_HiPilot_十场景_Agent经营Demo.html"><span class="mark">Hi</span><b>HiPilot × 药师帮</b><span>经营卡片案例</span></a>
+      <div class="nav-actions">
+        <a class="pill hot" href="#part1">区域诊断卡</a>
+        <a class="pill" href="#part2">BD 一店一策</a>
+        <a class="pill" href="#part3">自有品牌预测</a>
+        <a class="pill" href="药师帮_HiPilot_十场景_Agent经营Demo.html">返回十场景 Demo</a>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div>
+      <div class="eyebrow">Self-operated business card</div>
+      <h1>自营区域品类与门店经营诊断</h1>
+      <p class="lead">面向自营业务负责人与区域经营团队，本案例展示 HiPilot 如何把区域销售、终端覆盖、库存供给、履约表现与门店经营动作整合为一张可决策、可派单、可复盘的经营卡片，帮助管理层从“看结果”前移到“管过程、调结构、保利润”。</p>
+    </div>
+    <aside class="hero-card">
+      <h2>本页包含 3 张经营卡片</h2>
+      <div class="mini-grid">
+        <div class="mini"><b>华东一区</b><span>模拟区域，覆盖杭州、宁波、苏州等终端样本。</span></div>
+        <div class="mini"><b>30 天</b><span>滚动观察窗口，用于识别销售、库存和复购异常。</span></div>
+        <div class="mini"><b>O2O T+1</b><span>模拟 C 端销售回流，辅助 BD 生成一店一策。</span></div>
+        <div class="mini"><b>14 天预测</b><span>自有品牌终端覆盖、供货满足与备货趋势联动。</span></div>
+      </div>
+    </aside>
+  </header>
+
+  <section class="section" id="part1">
+    <div class="section-head">
+      <div class="section-kicker">01 / 经营卡片</div>
+      <div>
+        <h2 class="section-title">区域品类销售排名：先判断自营盘子的增长质量</h2>
+        <p class="section-desc">以下为基于公开行业口径构造的模拟数据，不代表药师帮内部真实数据。设计目标是让 HiPilot Agent 在一次经营会前，自动回答：哪些品类贡献销售，哪些品类贡献毛利，哪些品类正在消耗库存和履约资源。</p>
+      </div>
+    </div>
+
+    <div class="board">
+      <div class="board-top">
+        <div>
+          <div class="board-title">华东一区｜自营品类销售与经营质量排名</div>
+          <div class="board-note">模拟口径：近 30 天自营订单；样本覆盖区域药店与基层终端；金额单位为万元</div>
+        </div>
+        <span class="tag orange">Agent 自动生成</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>排名</th>
+              <th>品类</th>
+              <th>销售额</th>
+              <th>同比/环比</th>
+              <th>毛利率</th>
+              <th>库存天数</th>
+              <th>缺货率</th>
+              <th>门店覆盖</th>
+              <th>Agent 判断</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="rank orange">1</span></td>
+              <td><strong>慢病处方药</strong><div class="small">降压、降糖、降脂等高频复购品</div></td>
+              <td class="num">1,286</td>
+              <td><span class="tag green">+11.8%</span></td>
+              <td class="num">7.6%</td>
+              <td class="num">13.2 天</td>
+              <td class="num">2.8%</td>
+              <td class="num">82%</td>
+              <td><span class="tag green">稳盘品类</span><div class="small">适合绑定复购补货和重点客户保供。</div></td>
+            </tr>
+            <tr>
+              <td><span class="rank">2</span></td>
+              <td><strong>OTC 感冒呼吸</strong><div class="small">季节波动大，价格竞争敏感</div></td>
+              <td class="num">934</td>
+              <td><span class="tag green">+18.4%</span></td>
+              <td class="num">9.1%</td>
+              <td class="num">7.4 天</td>
+              <td class="num">8.6%</td>
+              <td class="num">76%</td>
+              <td><span class="tag amber">补货预警</span><div class="small">高动销 SKU 缺货风险上升，需跨仓调拨。</div></td>
+            </tr>
+            <tr>
+              <td><span class="rank">3</span></td>
+              <td><strong>消化与肠胃</strong><div class="small">连带销售强，可做组合推荐</div></td>
+              <td class="num">716</td>
+              <td><span class="tag green">+7.2%</span></td>
+              <td class="num">11.4%</td>
+              <td class="num">18.6 天</td>
+              <td class="num">3.1%</td>
+              <td class="num">69%</td>
+              <td><span class="tag green">利润品类</span><div class="small">适合叠加自有品牌替代推荐。</div></td>
+            </tr>
+            <tr>
+              <td><span class="rank">4</span></td>
+              <td><strong>外用与皮肤</strong><div class="small">终端需求分散，动销结构不均</div></td>
+              <td class="num">522</td>
+              <td><span class="tag amber">-2.9%</span></td>
+              <td class="num">12.7%</td>
+              <td class="num">24.8 天</td>
+              <td class="num">1.9%</td>
+              <td class="num">54%</td>
+              <td><span class="tag amber">库存偏重</span><div class="small">尾部 SKU 占库存，需做清单治理。</div></td>
+            </tr>
+            <tr>
+              <td><span class="rank">5</span></td>
+              <td><strong>营养保健</strong><div class="small">高毛利但门店动销能力分化</div></td>
+              <td class="num">468</td>
+              <td><span class="tag red">-8.5%</span></td>
+              <td class="num">18.9%</td>
+              <td class="num">31.5 天</td>
+              <td class="num">0.7%</td>
+              <td class="num">41%</td>
+              <td><span class="tag red">高毛利低动销</span><div class="small">需匹配高潜门店和会员触达场景。</div></td>
+            </tr>
+            <tr>
+              <td><span class="rank">6</span></td>
+              <td><strong>医疗器械与家护</strong><div class="small">客单高，复购弱，履约成本高</div></td>
+              <td class="num">392</td>
+              <td><span class="tag amber">+1.6%</span></td>
+              <td class="num">13.2%</td>
+              <td class="num">27.9 天</td>
+              <td class="num">1.2%</td>
+              <td class="num">33%</td>
+              <td><span class="tag amber">结构优化</span><div class="small">应减少低频大件备货，转预约制补货。</div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div class="section-kicker">01B / 门店排名</div>
+      <div>
+        <h2 class="section-title">门店经营情况排名：从“谁买得多”下钻到“谁值得经营”</h2>
+        <p class="section-desc">HiPilot 不只按销售额排序，而是把采购频次、毛利贡献、品类渗透、缺货影响、复购趋势和 BD 服务价值合成经营评分，用于决定优先服务哪些药店、推什么品类、派什么任务。</p>
+      </div>
+    </div>
+
+    <div class="split">
+      <div class="board">
+        <div class="board-top">
+          <div>
+            <div class="board-title">华东一区｜高潜药店经营评分榜</div>
+            <div class="board-note">模拟口径：近 30 天采购与经营行为；金额单位为万元</div>
+          </div>
+          <span class="tag green">用于 BD 任务优先级</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>排名</th>
+                <th>门店</th>
+                <th>销售额</th>
+                <th>采购频次</th>
+                <th>毛利贡献</th>
+                <th>品类渗透</th>
+                <th>复购变化</th>
+                <th>经营评分</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="rank orange">1</span></td>
+                <td><strong>杭州康民大药房文二路店</strong><div class="small">社区慢病 + OTC 综合型门店</div></td>
+                <td class="num">42.8</td>
+                <td class="num">18 次</td>
+                <td class="num">3.62</td>
+                <td class="num">64%</td>
+                <td><span class="tag amber">-6.8%</span></td>
+                <td class="num">86</td>
+              </tr>
+              <tr>
+                <td><span class="rank">2</span></td>
+                <td><strong>苏州仁和连锁园区店</strong><div class="small">连锁强管控，补货稳定</div></td>
+                <td class="num">39.6</td>
+                <td class="num">15 次</td>
+                <td class="num">3.18</td>
+                <td class="num">58%</td>
+                <td><span class="tag green">+4.2%</span></td>
+                <td class="num">82</td>
+              </tr>
+              <tr>
+                <td><span class="rank">3</span></td>
+                <td><strong>宁波惠民健康药房</strong><div class="small">慢病品类集中，OTC 偏弱</div></td>
+                <td class="num">35.2</td>
+                <td class="num">13 次</td>
+                <td class="num">2.66</td>
+                <td class="num">49%</td>
+                <td><span class="tag amber">-3.1%</span></td>
+                <td class="num">77</td>
+              </tr>
+              <tr>
+                <td><span class="rank">4</span></td>
+                <td><strong>嘉兴同心堂解放路店</strong><div class="small">高毛利商品接受度高</div></td>
+                <td class="num">31.4</td>
+                <td class="num">11 次</td>
+                <td class="num">3.04</td>
+                <td class="num">52%</td>
+                <td><span class="tag green">+8.9%</span></td>
+                <td class="num">75</td>
+              </tr>
+              <tr>
+                <td><span class="rank">5</span></td>
+                <td><strong>绍兴众康大药房</strong><div class="small">低价敏感，采购波动大</div></td>
+                <td class="num">29.7</td>
+                <td class="num">9 次</td>
+                <td class="num">2.01</td>
+                <td class="num">44%</td>
+                <td><span class="tag red">-12.4%</span></td>
+                <td class="num">69</td>
+              </tr>
+              <tr>
+                <td><span class="rank">6</span></td>
+                <td><strong>湖州安民药房</strong><div class="small">长尾品类多，库存偏慢</div></td>
+                <td class="num">24.3</td>
+                <td class="num">8 次</td>
+                <td class="num">1.82</td>
+                <td class="num">39%</td>
+                <td><span class="tag amber">-5.7%</span></td>
+                <td class="num">63</td>
+              </tr>
+              <tr>
+                <td><span class="rank">7</span></td>
+                <td><strong>台州健宁药房</strong><div class="small">订单小且频次低</div></td>
+                <td class="num">18.9</td>
+                <td class="num">6 次</td>
+                <td class="num">1.14</td>
+                <td class="num">31%</td>
+                <td><span class="tag red">-9.3%</span></td>
+                <td class="num">55</td>
+              </tr>
+              <tr>
+                <td><span class="rank">8</span></td>
+                <td><strong>金华百草堂社区店</strong><div class="small">价格敏感，平台迁移风险高</div></td>
+                <td class="num">16.6</td>
+                <td class="num">5 次</td>
+                <td class="num">0.92</td>
+                <td class="num">28%</td>
+                <td><span class="tag red">-15.8%</span></td>
+                <td class="num">49</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <aside class="detail-card">
+        <div class="detail-title">
+          <div>
+            <div class="muted">单店经营详情</div>
+            <h3>杭州康民大药房文二路店</h3>
+          </div>
+          <div class="score"><b>86</b><span>经营评分</span></div>
+        </div>
+        <div class="detail-grid">
+          <div class="metric"><b>42.8 万</b><span>近 30 天自营采购额，区域第 1</span></div>
+          <div class="metric"><b>8.5%</b><span>模拟毛利率，高于区域均值 0.9pct</span></div>
+          <div class="metric"><b>18 次</b><span>采购频次高，但近 7 天补货节奏放缓</span></div>
+          <div class="metric"><b>64%</b><span>品类渗透率，营养保健与外用品类偏低</span></div>
+        </div>
+        <div>
+          <div class="muted" style="margin-bottom:10px;">HiPilot Agent 识别出的经营动作</div>
+          <div class="action-list">
+            <div class="action"><i>1</i><div><b>先保慢病高频品</b><span>对 12 个复购 SKU 设置安全库存提醒，避免高价值客户因缺货迁移。</span></div></div>
+            <div class="action"><i>2</i><div><b>用 OTC 组合拉回频次</b><span>感冒呼吸品类高动销但缺货率偏高，建议从华北余量仓调拨 6 个 SKU。</span></div></div>
+            <div class="action"><i>3</i><div><b>增加高毛利替代推荐</b><span>消化、外用和营养保健中筛选 9 个自有/高毛利 SKU，生成 BD 到店话术。</span></div></div>
+            <div class="action"><i>4</i><div><b>BD 任务自动派发</b><span>本周只要求 BD 处理“复购下滑 + 高潜评分”的门店，不做无差别回访。</span></div></div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section" id="part2">
+    <div class="section-head">
+      <div class="section-kicker">02 / 区域 BD 策略</div>
+      <div>
+        <h2 class="section-title">高潜药店的一店一策：从采购排名变成 BD 行动包</h2>
+        <p class="section-desc">HiPilot 将药师帮 B2B 采购数据、模拟 O2O 平台 T+1 C 端销售数据、药店 SaaS 会员/库存信号合并，给区域 BD 生成可执行的营销和运营策略。目标不是“多回访”，而是让 BD 每次动作都指向复购、品类渗透和毛利改善。</p>
+      </div>
+    </div>
+
+    <div class="strategy-grid">
+      <article class="strategy-card">
+        <span class="tag orange">策略 1｜复购修复</span>
+        <div>
+          <h3>慢病高频品保供 + 会员补货提醒</h3>
+          <p>对康民文二路店的降压、降糖、降脂复购 SKU 设安全库存阈值，并通过药店 SaaS 给店长推送会员补货提醒模板。</p>
+        </div>
+        <div class="strategy-meta">
+          <div><b>+5.8%</b><span>预测 30 天复购回升</span></div>
+          <div><b>12 个</b><span>高频 SKU 进入保供池</span></div>
+        </div>
+      </article>
+      <article class="strategy-card">
+        <span class="tag green">策略 2｜O2O 热品承接</span>
+        <div>
+          <h3>用 T+1 C 端热销信号反推补货</h3>
+          <p>监控周边 3 公里 O2O 平台感冒、肠胃、外用类热销变化，次日生成补货建议，避免门店线上订单高峰时断货。</p>
+        </div>
+        <div class="strategy-meta">
+          <div><b>-31%</b><span>预测缺货订单损失</span></div>
+          <div><b>6 小时</b><span>从信号到 BD 任务</span></div>
+        </div>
+      </article>
+      <article class="strategy-card">
+        <span class="tag amber">策略 3｜高毛利结构</span>
+        <div>
+          <h3>自有品牌替代推荐 + 陈列动作</h3>
+          <p>对消化、外用、营养保健三类高毛利机会，生成“可替代 SKU + 陈列位置 + 话术”的组合卡，通过 SaaS 分发给门店。</p>
+        </div>
+        <div class="strategy-meta">
+          <div><b>+1.2pct</b><span>预测门店毛利率提升</span></div>
+          <div><b>9 个</b><span>推荐替代 SKU</span></div>
+        </div>
+      </article>
+      <article class="strategy-card">
+        <span class="tag red">策略 4｜流失预警</span>
+        <div>
+          <h3>价格敏感客户只处理关键品</h3>
+          <p>对采购频次下降、比价行为上升的门店，不做全店发券，只对竞品价差明显的 8 个核心品做定向保价和替代推荐。</p>
+        </div>
+        <div class="strategy-meta">
+          <div><b>+7.4 万</b><span>预测月采购额保全</span></div>
+          <div><b>8 个</b><span>进入价格监控池</span></div>
+        </div>
+      </article>
+    </div>
+
+    <div class="o2o-panel">
+      <div class="feed-card">
+        <h3>模拟 O2O T+1 C 端销售信号</h3>
+        <div class="feed-list">
+          <div class="feed-item"><b>感冒呼吸</b><span>周边 3 公里线上订单 1,428 单，夜间订单占比上升</span><em>+22%</em></div>
+          <div class="feed-item"><b>肠胃消化</b><span>外卖场景复购快，门店 B2B 补货滞后 1.6 天</span><em>+14%</em></div>
+          <div class="feed-item"><b>外用皮肤</b><span>儿童湿疹、蚊虫叮咬相关搜索提升</span><em>+18%</em></div>
+          <div class="feed-item"><b>营养保健</b><span>O2O 浏览高但转化低，适合门店导购承接</span><em>-7%</em></div>
+        </div>
+      </div>
+      <div class="saas-card">
+        <h3>通过药店 SaaS 分发的经营建议</h3>
+        <div class="suggestions">
+          <div class="suggestion"><b>补货清单</b><span>今日建议补货 18 个 SKU，其中 7 个为 O2O 热销 SKU，4 个为慢病复购保护 SKU。</span></div>
+          <div class="suggestion"><b>会员触达</b><span>给近 35 天购买过降压/降糖药但未复购会员发送补货提醒，不做全量营销。</span></div>
+          <div class="suggestion"><b>陈列建议</b><span>感冒呼吸与肠胃类放置收银台附近，营养保健只推荐给高客单会员。</span></div>
+          <div class="suggestion"><b>BD 话术</b><span>“这 6 个品本周 O2O 热度上升，建议先补 5 天量；替代品毛利高 2.4pct。”</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="part3">
+    <div class="section-head">
+      <div class="section-kicker">03 / 自有品牌预测</div>
+      <div>
+        <h2 class="section-title">核心品类排名矩阵：把终端覆盖、供货满足和备货风险放在一张卡上</h2>
+        <p class="section-desc">医药 B2B 的自有品牌经营不能只看短期动销或单品毛利，更要看有效采购终端、复购门店占比、供货满足率、效期风险、库存可售天数和未来需求趋势。HiPilot 将区域采购、仓配履约、效期批号与 O2O 需求信号合并，输出采购备货建议，并为 7/30 天经营复盘留下基线。</p>
+      </div>
+    </div>
+
+    <div class="matrix-layout">
+      <div class="board matrix-table">
+        <div class="board-top">
+          <div>
+            <div class="board-title">华东一区｜自有品牌核心品类经营矩阵</div>
+            <div class="board-note">模拟口径：近 30 天终端采购 + 未来 14 天需求预测；金额单位为万元</div>
+          </div>
+          <span class="tag orange">采购备货决策卡</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>优先级</th>
+                <th>核心品类</th>
+                <th>终端采购额</th>
+                <th>有效采购终端</th>
+                <th>复购门店占比</th>
+                <th>供货满足率</th>
+                <th>效期风险</th>
+                <th>可售天数</th>
+                <th>趋势</th>
+                <th>备货建议</th>
+                <th>复盘口径</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="rank orange">P1</span></td>
+                <td><strong>感冒呼吸自有品牌</strong><div class="small">季节性高动销，O2O 需求拉动</div></td>
+                <td class="num">742</td>
+                <td class="num">1,860 家</td>
+                <td class="num">42%</td>
+                <td class="num">91.2%</td>
+                <td><span class="tag green">低</span></td>
+                <td class="num">6.1 天</td>
+                <td>
+                  <svg class="spark" viewBox="0 0 120 36" aria-hidden="true"><polyline points="4,27 22,25 40,22 58,18 76,14 94,10 116,7" fill="none" stroke="#e85d31" stroke-width="3" stroke-linecap="round"/></svg>
+                </td>
+                <td><span class="tag red">加急补货</span><div class="small">建议 48 小时内补 13 天安全库存。</div></td>
+                <td class="small">看缺货率、有效终端覆盖、复购门店留存。</td>
+              </tr>
+              <tr>
+                <td><span class="rank">P2</span></td>
+                <td><strong>肠胃消化自有品牌</strong><div class="small">毛利较好，适合组合推荐</div></td>
+                <td class="num">518</td>
+                <td class="num">1,420 家</td>
+                <td class="num">38%</td>
+                <td class="num">94.8%</td>
+                <td><span class="tag green">低</span></td>
+                <td class="num">10.5 天</td>
+                <td>
+                  <svg class="spark" viewBox="0 0 120 36" aria-hidden="true"><polyline points="4,25 22,23 40,24 58,19 76,17 94,15 116,12" fill="none" stroke="#101010" stroke-width="3" stroke-linecap="round"/></svg>
+                </td>
+                <td><span class="tag green">稳态增补</span><div class="small">保持 12 天库存，绑定高潜门店推荐。</div></td>
+                <td class="small">看门店渗透、组合采购率、二次采购周期。</td>
+              </tr>
+              <tr>
+                <td><span class="rank">P3</span></td>
+                <td><strong>外用皮肤自有品牌</strong><div class="small">需求分散，部分 SKU 动销慢</div></td>
+                <td class="num">306</td>
+                <td class="num">840 家</td>
+                <td class="num">27%</td>
+                <td class="num">88.7%</td>
+                <td><span class="tag amber">中</span></td>
+                <td class="num">18.9 天</td>
+                <td>
+                  <svg class="spark" viewBox="0 0 120 36" aria-hidden="true"><polyline points="4,22 22,20 40,18 58,21 76,19 94,17 116,16" fill="none" stroke="#c9892b" stroke-width="3" stroke-linecap="round"/></svg>
+                </td>
+                <td><span class="tag amber">结构调拨</span><div class="small">保留热销 8 SKU，尾部 SKU 转区域调拨。</div></td>
+                <td class="small">看近效期库存下降、区域调拨完成率。</td>
+              </tr>
+              <tr>
+                <td><span class="rank">P4</span></td>
+                <td><strong>营养保健自有品牌</strong><div class="small">高毛利低转化，需要门店经营动作</div></td>
+                <td class="num">214</td>
+                <td class="num">520 家</td>
+                <td class="num">18%</td>
+                <td class="num">96.1%</td>
+                <td><span class="tag amber">中</span></td>
+                <td class="num">28.4 天</td>
+                <td>
+                  <svg class="spark" viewBox="0 0 120 36" aria-hidden="true"><polyline points="4,13 22,15 40,17 58,20 76,22 94,24 116,25" fill="none" stroke="#b83a2e" stroke-width="3" stroke-linecap="round"/></svg>
+                </td>
+                <td><span class="tag red">暂停扩采</span><div class="small">先做 40 家高潜门店试销，不扩大区域备货。</div></td>
+                <td class="small">看试销门店二次采购、库存消化、退货风险。</td>
+              </tr>
+              <tr>
+                <td><span class="rank">P5</span></td>
+                <td><strong>家庭常备器械</strong><div class="small">客单高但履约成本敏感</div></td>
+                <td class="num">196</td>
+                <td class="num">430 家</td>
+                <td class="num">21%</td>
+                <td class="num">84.3%</td>
+                <td><span class="tag green">低</span></td>
+                <td class="num">22.2 天</td>
+                <td>
+                  <svg class="spark" viewBox="0 0 120 36" aria-hidden="true"><polyline points="4,20 22,21 40,19 58,18 76,20 94,19 116,18" fill="none" stroke="#8f8b84" stroke-width="3" stroke-linecap="round"/></svg>
+                </td>
+                <td><span class="tag amber">预约备货</span><div class="small">降低仓内常备，转门店预约和区域前置。</div></td>
+                <td class="small">看履约成本、超时率、客诉率。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <aside class="forecast-card">
+        <h3>采购备货趋势预测</h3>
+        <div class="trend-stack">
+          <div class="chart">
+            <div class="chart-head"><b>感冒呼吸｜历史 + 预测</b><span>单位：万元/日</span></div>
+            <svg class="line-chart" viewBox="0 0 340 128" aria-label="感冒呼吸趋势折线图">
+              <line x1="24" y1="108" x2="324" y2="108" stroke="#e7e2da"/>
+              <line x1="24" y1="76" x2="324" y2="76" stroke="#e7e2da"/>
+              <line x1="24" y1="44" x2="324" y2="44" stroke="#e7e2da"/>
+              <polyline points="28,92 66,86 104,80 142,72 180,58" fill="none" stroke="#101010" stroke-width="4" stroke-linecap="round"/>
+              <polyline points="180,58 218,48 256,39 294,32 322,28" fill="none" stroke="#e85d31" stroke-width="4" stroke-linecap="round" stroke-dasharray="7 6"/>
+            </svg>
+            <div class="legend"><span><i class="actual"></i>历史 7 天</span><span><i class="predict"></i>预测 14 天</span></div>
+          </div>
+          <div class="chart">
+            <div class="chart-head"><b>库存安全线｜建议备货</b><span>单位：可售天数</span></div>
+            <svg class="line-chart" viewBox="0 0 340 128" aria-label="库存安全线趋势折线图">
+              <line x1="24" y1="48" x2="324" y2="48" stroke="#e85d31" stroke-width="2" stroke-dasharray="5 5"/>
+              <text x="252" y="42" fill="#e85d31" font-size="11">安全线 9 天</text>
+              <polyline points="28,36 66,45 104,59 142,72 180,86" fill="none" stroke="#101010" stroke-width="4" stroke-linecap="round"/>
+              <polyline points="180,86 218,62 256,50 294,45 322,43" fill="none" stroke="#2d8659" stroke-width="4" stroke-linecap="round" stroke-dasharray="7 6"/>
+            </svg>
+            <div class="legend"><span><i class="actual"></i>当前库存消耗</span><span><i style="background:#2d8659"></i>补货后预测</span></div>
+          </div>
+          <div class="suggestion">
+            <b>HiPilot 备货建议</b>
+            <span>感冒呼吸自有品牌进入 P1 加急补货；肠胃消化保持稳态增补；营养保健暂停扩采，先通过 40 家高潜门店做 SaaS 试销与复盘。</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <div class="disclaimer">
+    免责声明：本页所有销售额、毛利率、库存天数、门店名称、经营评分和 Agent 结论均为基于公开行业与药师帮披露口径构造的演示数据，不代表药师帮内部真实经营数据；收益和动作建议仅用于展示 HiPilot 经营卡片案例的信息组织方式，不构成经营承诺。
+  </div>
+</div>
+</body>
+</html>

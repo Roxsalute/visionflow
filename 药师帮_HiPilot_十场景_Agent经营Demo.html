@@ -3,73 +3,979 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>药师帮 × HiPilot｜10 场景 Agent 经营 Demo</title>
+  <meta name="description" content="药师帮 × HiPilot 企业主 AI 经营提效十场景演示">
+  <title>药师帮 × HiPilot｜企业主 AI 经营提效十场景</title>
   <style>
-    :root{--bg:#f7f7f5;--ink:#101010;--muted:#666663;--subtle:#8d8d87;--line:#deded9;--white:#fff;--orange:#e85d31;--green:#11845b;--blue:#2f6fd6;--purple:#6f6fd8;--max:1500px}
-    *{box-sizing:border-box}html,body{height:100%}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;-webkit-font-smoothing:antialiased;overflow:hidden}button{font:inherit;color:inherit}a{text-decoration:none;color:inherit}
-    .app{height:100vh;display:flex;flex-direction:column}.view{flex:1;display:none;overflow-y:auto}.view.on{display:flex;flex-direction:column}
-    .shell{width:min(var(--max),calc(100% - 56px));margin:0 auto}.top{height:76px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(222,222,217,.82)}
-    .brand{display:flex;align-items:center;gap:10px;font-weight:760;letter-spacing:-.03em}.mark{width:32px;height:32px;border-radius:9px;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:14px}.brand .x,.brand .ysb{color:var(--orange)}
-    .btn{border:1px solid var(--line);border-radius:999px;background:#fff;padding:9px 14px;font-size:13px;font-weight:700;cursor:pointer}.btn.dark{background:var(--ink);border-color:var(--ink);color:#fff}
-    .hero{padding:42px 0 24px;display:grid;grid-template-columns:1fr .94fr;gap:58px;align-items:start}.hero h1{font-size:clamp(46px,5.7vw,78px);line-height:.97;letter-spacing:-.072em;margin:0;font-weight:735;max-width:800px}.hero p{font-size:17px;line-height:1.68;color:var(--muted);max-width:720px;margin:24px 0 0}
-    .criteria{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:18px}.criterion{background:#fff;border:1px solid var(--line);border-radius:16px;padding:15px 13px;min-height:110px}.criterion b{display:block;font-size:19px;line-height:1.08;letter-spacing:-.04em;margin-bottom:10px}.criterion span{font-size:12px;color:var(--muted);line-height:1.45}
-    .black{background:var(--ink);color:#fff;border-radius:26px;padding:28px;min-height:300px;position:relative;overflow:hidden}.black:after{content:"";position:absolute;right:-140px;top:-130px;width:360px;height:360px;border-radius:50%;background:rgba(232,93,49,.24)}.black h2{font-size:31px;line-height:1.05;letter-spacing:-.045em;margin:0 0 18px}.black p{color:#bcbcb7;font-size:15px;line-height:1.65;margin:0 0 24px}.legend{display:grid;grid-template-columns:1fr 1fr;gap:10px}.legend div{border:1px solid #333330;background:#181816;border-radius:14px;padding:14px}.legend b{display:block;font-size:24px}.legend span{color:#aaa9a4;font-size:12px}
-    .cards{width:min(var(--max),calc(100% - 56px));margin:0 auto;padding:14px 0 52px;display:grid;grid-template-columns:repeat(5,1fr);gap:12px}.scene{background:#fff;border:1px solid var(--line);border-top:4px solid var(--accent);border-radius:18px;min-height:188px;padding:18px;display:flex;flex-direction:column;cursor:pointer;transition:.18s ease}.scene:hover{transform:translateY(-3px);box-shadow:0 18px 60px rgba(0,0,0,.08);border-color:var(--accent)}.scene-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.rank{font-size:14px;color:var(--accent);font-weight:860}.group{font-size:11px;color:var(--subtle)}.scene h3{font-size:21px;line-height:1.14;letter-spacing:-.04em;margin:0 0 10px}.scene p{font-size:12.5px;line-height:1.5;color:var(--muted);margin:0}.kpi{border-top:1px solid #ecece8;margin-top:auto;padding-top:11px;font-size:12.5px;font-weight:750;display:flex;align-items:center;gap:8px}.dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
-    .flow-head{border-bottom:1px solid var(--line);background:rgba(247,247,245,.92);backdrop-filter:blur(16px);flex:none}.flow-inner{width:min(var(--max),calc(100% - 56px));margin:0 auto;padding:18px 0 14px}.flow-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap}.back{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 12px;cursor:pointer;color:var(--muted)}.scene-title{font-size:22px;font-weight:760;letter-spacing:-.035em}.pill{margin-left:auto;border:1px solid rgba(232,93,49,.22);background:rgba(232,93,49,.08);color:var(--orange);border-radius:999px;padding:8px 12px;font-size:12px;font-weight:760}.tabs{display:flex;gap:8px;overflow-x:auto;margin-top:14px;padding-bottom:2px}.tab{border:0;background:transparent;color:var(--muted);border-radius:999px;padding:8px 12px;cursor:pointer;font-size:12.5px;font-weight:700;white-space:nowrap}.tab.on{background:var(--ink);color:#fff}
-    .workspace{flex:1;min-height:0;width:min(var(--max),calc(100% - 56px));margin:0 auto;padding:16px 0 22px;display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:18px}.chat{background:#fff;border:1px solid var(--line);border-radius:22px;min-height:0;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:14px}.side{display:flex;flex-direction:column;gap:12px;min-height:0}.box{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px}.label{font-size:11px;color:var(--subtle);letter-spacing:.12em;text-transform:uppercase;font-weight:760;margin-bottom:10px}.desc{color:var(--muted);font-size:13px;line-height:1.6}.agent{display:flex;gap:10px;align-items:center;border-top:1px solid #efefeb;padding:10px 0}.agent:first-of-type{border-top:0}.emoji{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:rgba(232,93,49,.1)}.agent b{font-size:13px}.agent span:last-child{margin-left:auto;color:var(--subtle);font-size:11px}.agent.on{background:rgba(232,93,49,.08);margin:0 -10px;padding:10px;border-radius:12px}.agent.on span:last-child{color:var(--orange);font-weight:800}
-    .msg{display:grid;grid-template-columns:38px minmax(0,1fr);gap:10px;max-width:88%}.msg.me{align-self:flex-end;grid-template-columns:minmax(0,1fr) 38px}.avatar{width:38px;height:38px;border-radius:12px;background:var(--ink);color:#fff;display:grid;place-items:center}.msg.me .avatar{grid-column:2;grid-row:1}.bubble{border:1px solid var(--line);border-radius:5px 18px 18px 18px;background:#fff;padding:14px 16px;font-size:15px;line-height:1.65}.msg.me .bubble{background:var(--ink);color:#fff;border-color:var(--ink);border-radius:18px 5px 18px 18px}.who{font-size:12px;color:var(--muted);font-weight:700;margin-bottom:5px}
-    .card{border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:16px;background:#fff;padding:16px}.card-title{font-weight:800;margin-bottom:12px}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.metric{background:#f1f1ee;border-radius:10px;padding:10px}.metric .k{font-size:11px;color:var(--muted)}.metric b{font-size:19px}.options{display:grid;gap:8px}.option{background:#f1f1ee;border:1px solid transparent;border-radius:12px;padding:12px;display:grid;grid-template-columns:1fr auto;gap:12px}.option.best{background:#fff;border-color:var(--orange)}.task{display:grid;grid-template-columns:30px 1fr auto;gap:10px;align-items:center;border-top:1px solid #ecece8;padding:11px 0}.task:first-of-type{border-top:0}.status{font-size:12px;font-weight:800;color:var(--green)}.empty{border:1px dashed var(--line);border-radius:16px;background:#fff;padding:18px;color:var(--muted);line-height:1.6}
-    .timeline{overflow-y:auto;flex:1}.tl{display:grid;grid-template-columns:42px 1fr;gap:10px;font-size:12px;color:var(--muted);padding:8px 0;border-top:1px solid #efefeb}.tl:first-child{border-top:0}.tl b{color:var(--ink)}
-    @media(max-width:1180px){body{overflow:auto}.app{height:auto;min-height:100vh}.view{overflow:visible}.hero,.workspace{grid-template-columns:1fr}.cards{grid-template-columns:repeat(2,1fr)}.criteria{grid-template-columns:1fr 1fr}.side{order:-1}.chat{min-height:520px}}@media(max-width:680px){.shell,.cards,.flow-inner,.workspace{width:min(100% - 30px,var(--max))}.top{height:auto;padding:18px 0}.btn.dark{display:none}.hero h1{font-size:48px}.criteria,.cards{grid-template-columns:1fr}.black{min-height:auto}.metrics{grid-template-columns:1fr}.msg{max-width:100%}}
+    :root {
+      --bg: #f7f7f5;
+      --panel: #fff;
+      --ink: #101010;
+      --muted: #666663;
+      --subtle: #8d8d87;
+      --line: #deded9;
+      --card: #f1f1ee;
+      --accent: #e85d31;
+      --green: #11845b;
+      --danger: #b83a2d;
+      --max: 1500px;
+      --shadow: 0 22px 70px rgba(0, 0, 0, .075);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; color: inherit; }
+
+    .app { height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+    .view { flex: 1; display: none; overflow-y: auto; background: var(--bg); }
+    .view.on { display: flex; flex-direction: column; }
+
+    .hero { padding: 30px 32px 14px; flex: none; }
+    .hero-inner { max-width: var(--max); margin: 0 auto; display: grid; grid-template-columns: 1fr .82fr; gap: 38px; align-items: end; }
+    .hero-inner > * { min-width: 0; }
+    .brand { display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 760; letter-spacing: -.03em; margin-bottom: 24px; }
+    .brand .mark { width: 26px; height: 26px; border-radius: 7px; background: var(--ink); color: #fff; display: grid; place-items: center; font-size: 13px; }
+    .brand .x { color: var(--accent); font-weight: 500; }
+    .brand .ysb { color: var(--accent); }
+    .hero h1 {
+      font-size: clamp(34px, 4vw, 56px);
+      line-height: 1;
+      letter-spacing: -.065em;
+      font-weight: 730;
+      margin-bottom: 14px;
+      max-width: 760px;
+    }
+    .hero p { max-width: 760px; color: var(--muted); font-size: 15.5px; line-height: 1.66; }
+    .rank-note {
+      border-top: 1px solid var(--line);
+      padding-top: 14px;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0,1fr));
+      gap: 8px;
+    }
+    .rank-note span {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px 11px;
+      font-size: 11.5px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+    .rank-note b { display: block; color: var(--ink); font-size: 15px; margin-bottom: 4px; }
+
+    .cards {
+      max-width: var(--max);
+      width: 100%;
+      margin: 0 auto;
+      padding: 12px 28px 56px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .scene-card {
+      position: relative;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-top: 4px solid var(--scene-color, var(--accent));
+      border-radius: 20px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+      min-height: 248px;
+      display: flex;
+      flex-direction: column;
+    }
+    .scene-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: var(--scene-color, var(--accent)); }
+    .scene-visual { height: 54px; position: relative; padding: 11px 14px; overflow: hidden; border-bottom: 1px solid rgba(222,222,217,.7); flex: none; }
+    .scene-visual svg { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .42; transform: translateX(22%) scale(1.02); transform-origin: center; }
+    .rank {
+      position: absolute;
+      top: 12px;
+      left: 14px;
+      z-index: 1;
+      font-size: 11.5px;
+      letter-spacing: .08em;
+      font-weight: 850;
+      color: var(--scene-color, rgba(16,16,16,.55));
+      background: rgba(255,255,255,.78);
+      border: 1px solid rgba(222,222,217,.72);
+      border-radius: 999px;
+      padding: 4px 8px;
+      backdrop-filter: blur(10px);
+      max-width: calc(100% - 160px);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .score {
+      position: absolute;
+      top: 11px;
+      right: 12px;
+      z-index: 1;
+      font-size: 11.5px;
+      color: var(--scene-color, var(--green));
+      background: rgba(255,255,255,.82);
+      border: 1px solid color-mix(in srgb, var(--scene-color, var(--green)) 22%, transparent);
+      padding: 5px 9px;
+      border-radius: 999px;
+      font-weight: 760;
+      max-width: 138px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .scene-body { padding: 12px 16px 14px; display: grid; grid-template-columns: .92fr 1.08fr; gap: 16px; flex: 1; min-height: 0; align-items: stretch; }
+    .scene-main, .scene-side { min-width: 0; }
+    .scene-main { display: flex; flex-direction: column; gap: 6px; }
+    .scene-side { display: grid; grid-template-rows: minmax(0, 1fr) minmax(0, 1fr); gap: 8px; align-content: stretch; }
+    .unit { font-size: 11.5px; letter-spacing: .1em; font-weight: 850; }
+    .scene-body h2 { font-size: 18.5px; line-height: 1.12; letter-spacing: -.035em; font-weight: 770; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .reason, .boundary, .trigger { font-size: 11.8px; line-height: 1.44; color: var(--muted); display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; }
+    .reason { -webkit-line-clamp: 2; }
+    .boundary { color: #3c3c39; background: var(--card); border-radius: 12px; padding: 9px 11px; align-self: stretch; -webkit-line-clamp: 3; min-height: 0; }
+    .trigger { color: #7a3b23; background: rgba(232,93,49,.06); border: 1px solid rgba(232,93,49,.12); border-radius: 12px; padding: 9px 11px; align-self: stretch; -webkit-line-clamp: 3; min-height: 0; }
+    .kpi { margin-top: 4px; padding-top: 7px; border-top: 1px solid var(--line); display: flex; gap: 8px; align-items: center; font-size: 12.2px; font-weight: 760; line-height: 1.32; }
+    .kpi i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+
+    .footer {
+      max-width: var(--max);
+      width: 100%;
+      margin: -44px auto 0;
+      padding: 0 28px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .home-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn-link { border: 1px solid var(--ink); border-radius: 8px; background: var(--ink); color: #fff; padding: 10px 14px; font-weight: 730; font-size: 13px; display: inline-flex; align-items: center; justify-content: center; }
+    .btn-link.secondary { background: transparent; color: var(--ink); border-color: var(--line); }
+
+    .flow-head {
+      background: rgba(247,247,245,.94);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
+      padding: 17px 28px 0;
+      flex: none;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .flow-head-inner { max-width: var(--max); margin: 0 auto; }
+    .flow-top { display: flex; align-items: center; gap: 13px; flex-wrap: wrap; margin-bottom: 12px; }
+    .back { border: 1px solid var(--line); border-radius: 999px; background: #fff; color: var(--muted); cursor: pointer; padding: 7px 13px; font-size: 13px; font-weight: 680; }
+    .back:hover { border-color: var(--accent); color: var(--accent); }
+    .scene-icon { width: 32px; height: 32px; border-radius: 9px; display: grid; place-items: center; font-size: 16px; }
+    .scene-name { font-size: 16px; font-weight: 760; }
+    .scene-meta { color: var(--muted); font-size: 13px; }
+    .pill { color: var(--accent); background: rgba(232,93,49,.10); border-radius: 999px; padding: 6px 11px; font-size: 12px; font-weight: 760; }
+    .tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 14px; white-space: nowrap; scrollbar-width: none; }
+    .tabs::-webkit-scrollbar { display: none; }
+    .tab { border: 0; background: transparent; color: var(--muted); border-radius: 999px; padding: 8px 13px; cursor: pointer; font-size: 12.5px; font-weight: 700; }
+    .tab.on { background: var(--ink); color: #fff; }
+    .tab:hover:not(.on) { background: #ecece8; color: var(--ink); }
+
+    .workspace { flex: 1; min-height: 0; width: 100%; max-width: var(--max); margin: 0 auto; padding: 16px 28px 20px; display: grid; grid-template-columns: minmax(0, 1fr) 338px 54px; gap: 16px; }
+    .chat { min-width: 0; overflow-y: auto; padding: 2px 8px 26px 0; display: flex; flex-direction: column; gap: 14px; scroll-behavior: smooth; }
+    .side { min-width: 0; display: flex; flex-direction: column; gap: 12px; overflow: hidden; }
+    .rail { width: 54px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; }
+    .rail-btn { width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--line); background: #fff; color: var(--accent); cursor: pointer; box-shadow: 0 8px 20px rgba(0,0,0,.06); }
+    .rail-btn:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .box { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; }
+    .box.grow { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+    .label { font-size: 11px; color: var(--subtle); letter-spacing: .11em; font-weight: 760; margin-bottom: 7px; }
+    .desc { color: var(--muted); font-size: 12.5px; line-height: 1.62; }
+    .agent-row { display: flex; align-items: center; gap: 9px; padding: 9px 0; border-bottom: 1px solid #efefeb; transition: all .2s ease; }
+    .agent-row:last-child { border-bottom: 0; }
+    .agent-row .emoji { width: 27px; height: 27px; border-radius: 8px; display: grid; place-items: center; filter: grayscale(.45); opacity: .66; transition: all .2s ease; }
+    .agent-row .nm { font-size: 12.5px; font-weight: 760; }
+    .agent-row .rl { font-size: 11.5px; color: var(--muted); }
+    .agent-row .state { margin-left: auto; font-size: 11px; color: var(--subtle); font-weight: 650; white-space: nowrap; }
+    .agent-row.on { background: rgba(232,93,49,.08); border-radius: 11px; border-bottom-color: transparent; margin: 4px -11px; padding: 10px 11px; box-shadow: inset 3px 0 0 var(--accent); }
+    .agent-row.on .emoji, .agent-row.done .emoji { filter: none; opacity: 1; }
+    .agent-row.on .state { color: var(--accent); font-weight: 820; }
+    .agent-row.done .state { color: var(--green); }
+    .timeline-wrap { overflow-y: auto; flex: 1; }
+    .tl-row { display: grid; grid-template-columns: 8px minmax(0,1fr) auto; gap: 8px; align-items: center; font-size: 12px; padding: 7px 0; }
+    .tl-dot { width: 7px; height: 7px; border-radius: 50%; }
+    .tl-main { min-width: 0; color: var(--ink); font-weight: 650; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .tl-time { color: var(--subtle); }
+
+    .msg { display: flex; gap: 10px; align-items: flex-start; }
+    .msg.me { flex-direction: row-reverse; }
+    .avatar { width: 36px; height: 36px; border-radius: 10px; color: #fff; display: grid; place-items: center; flex: none; font-size: 16px; }
+    .message-content { max-width: 82%; min-width: 0; }
+    .who { color: var(--muted); font-size: 12px; font-weight: 680; margin-bottom: 5px; }
+    .msg.me .who { text-align: right; }
+    .bubble { background: #fff; border: 1px solid var(--line); border-radius: 4px 16px 16px 16px; padding: 13px 17px; font-size: 15px; line-height: 1.68; white-space: pre-wrap; }
+    .msg.me .bubble { background: var(--ink); color: #fff; border-color: var(--ink); border-radius: 16px 4px 16px 16px; }
+    .typing::after { content: "▋"; animation: blink .8s steps(1) infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .card { background: #fff; border: 1px solid var(--line); border-left-width: 4px; border-radius: 16px; padding: 16px 18px; font-size: 14px; }
+    .card-title { font-size: 17px; font-weight: 810; margin-bottom: 12px; letter-spacing: -.015em; }
+    .kpis { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+    .metric-card { background: var(--card); border-radius: 9px; padding: 10px 12px; }
+    .metric-card .k { color: var(--muted); font-size: 11.5px; }
+    .metric-card .v { font-size: 20px; font-weight: 820; letter-spacing: -.025em; margin: 2px 0; }
+    .metric-card .t { font-size: 11.5px; font-weight: 720; }
+    .chart { display: flex; align-items: flex-end; gap: 7px; height: 76px; margin-top: 12px; padding: 10px; background: var(--card); border-radius: 9px; }
+    .col { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 4px; height: 100%; }
+    .bar { width: 100%; border-radius: 4px 4px 0 0; }
+    .chart-label { color: var(--muted); font-size: 9.5px; text-align: center; white-space: nowrap; }
+    .summary { margin-top: 12px; background: rgba(232,93,49,.08); color: #7a3b23; border-radius: 9px; padding: 10px 12px; font-size: 13px; line-height: 1.58; }
+    .find { display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px dashed #e2e2dc; }
+    .find:last-of-type { border-bottom: 0; }
+    .sev { width: 6px; border-radius: 4px; flex: none; }
+    .find b { font-size: 14px; display: block; margin-bottom: 3px; }
+    .find span { color: var(--muted); font-size: 12.5px; line-height: 1.55; display: block; }
+    .rec { margin-top: 10px; color: #155b40; background: rgba(17,132,91,.09); border-radius: 9px; padding: 10px 12px; font-size: 13px; line-height: 1.55; }
+    .option { display: grid; grid-template-columns: minmax(150px, .62fr) minmax(0, 1fr) minmax(150px, .55fr); gap: 12px; align-items: center; background: var(--card); border: 1px solid transparent; border-radius: 10px; padding: 12px 14px; margin-top: 8px; }
+    .option.best { background: #fff; border-color: var(--accent); }
+    .option-label { font-weight: 820; font-size: 14px; }
+    .option-desc { color: var(--muted); font-size: 12px; line-height: 1.5; }
+    .impact { font-size: 13px; font-weight: 820; text-align: right; }
+    .timeline { color: var(--muted); font-size: 11.5px; margin-top: 3px; text-align: right; }
+    .consensus { margin-top: 10px; background: rgba(232,93,49,.08); color: #7a3b23; border-radius: 9px; padding: 10px 12px; font-size: 12.5px; line-height: 1.55; }
+    .step { display: grid; grid-template-columns: 26px minmax(0,1fr) auto; gap: 10px; padding: 10px 0; border-bottom: 1px dashed #e2e2dc; }
+    .step:last-of-type { border-bottom: 0; }
+    .step-emoji { font-size: 18px; }
+    .step-agent { font-weight: 790; font-size: 13.5px; }
+    .step-task { color: var(--muted); font-size: 12.5px; line-height: 1.5; margin: 3px 0; }
+    .deadline { color: var(--subtle); font-size: 11.5px; }
+    .status { font-size: 11.5px; font-weight: 760; white-space: nowrap; }
+    .expected { margin-top: 10px; color: #155b40; background: rgba(17,132,91,.09); border-radius: 9px; padding: 10px 12px; font-weight: 680; font-size: 13px; line-height: 1.55; }
+    .handoff { display: flex; align-items: center; gap: 12px; background: linear-gradient(90deg, rgba(232,93,49,.10), #fff); border: 1px dashed rgba(232,93,49,.35); border-radius: 14px; padding: 14px 16px; font-size: 13px; }
+    .handoff .big { font-size: 22px; }
+    .handoff b { display: block; }
+    .handoff span { color: var(--muted); line-height: 1.5; }
+    .arrow { color: var(--accent); font-weight: 800; }
+    .empty-tip { color: var(--muted); background: #fff; border: 1px dashed var(--line); border-radius: 14px; padding: 18px; font-size: 14px; line-height: 1.6; }
+
+    @media (max-width: 1320px) {
+      .cards { grid-template-columns: 1fr; }
+      .scene-card { min-height: 232px; }
+      .workspace { grid-template-columns: minmax(0,1fr) 310px; }
+      .rail { display: none; }
+    }
+    @media (max-width: 900px) {
+      body { overflow: auto; }
+      .app { min-height: 100vh; height: auto; overflow: visible; }
+      .view { overflow: visible; }
+      .hero-inner { grid-template-columns: 1fr; gap: 24px; }
+      .rank-note { grid-template-columns: 1fr; }
+      .cards { grid-template-columns: 1fr; padding-bottom: 70px; }
+      .scene-card { height: auto; min-height: 0; }
+      .scene-body { grid-template-columns: 1fr; }
+      .scene-main { height: auto; }
+      .kpi { margin-top: 2px; }
+      .footer { flex-direction: column; align-items: flex-start; margin-top: -44px; }
+      .workspace { grid-template-columns: 1fr; min-height: 0; }
+      .chat { overflow: visible; padding-right: 0; }
+      .side { order: -1; overflow: visible; }
+      .message-content { max-width: calc(100% - 46px); }
+      .option { grid-template-columns: 1fr; }
+      .impact, .timeline { text-align: left; }
+      .kpis { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
 <div class="app">
   <main id="home" class="view on">
-    <header class="shell top"><div class="brand"><span class="mark">Hi</span><span>HiPilot</span><span class="x">×</span><span class="ysb">药师帮</span></div><a class="btn dark" href="药师帮_HiPilot_AI经营落地方案.html">返回主方案</a></header>
-    <section class="shell hero"><div><h1>企业主最该先用 AI 改造的 10 个经营场景</h1><p>不按部门切，而按经营结果排序：先做金额大、频次高、数据可得、协同复杂且能闭环的场景。</p><div class="criteria"><div class="criterion"><b>01 直接 ROI</b><span>是否直接影响收入、毛利、成本、现金流。</span></div><div class="criterion"><b>02 高频决策</b><span>是否每天/每周重复发生，适合 Agent 持续监控。</span></div><div class="criterion"><b>03 数据可得</b><span>是否已有交易、价格、履约、SaaS 等数据。</span></div><div class="criterion"><b>04 协同复杂</b><span>是否需要采购、仓配、运营、BD、质量等部门。</span></div><div class="criterion"><b>05 可闭环</b><span>是否能从预警、派单到复盘。</span></div></div></div><aside class="black"><h2>从“AI 工具”到“经营班子”</h2><p>每个场景都配置多 Agent：先发现经营信号，再生成方案卡，由负责人审批后派发任务，并把结果沉淀为经营记忆。</p><div class="legend"><div><b>3</b><span>P0 直接 ROI 场景</span></div><div><b>4</b><span>跨部门高协同场景</span></div><div><b>10</b><span>可复制作战室</span></div><div><b>90天</b><span>从试点到有限执行</span></div></div></aside></section>
-    <section class="cards" id="cards"></section>
+    <section class="hero">
+      <div class="hero-inner">
+        <div>
+          <div class="brand"><span class="mark">Hi</span><span>HiPilot</span><span class="x">×</span><span class="ysb">药师帮</span></div>
+          <h1>企业主最该先用 AI 改造的 10 个经营场景</h1>
+          <p>对药师帮这样的医药 B2B 平台，AI 的价值不在于多一个工具，而在于把增长、利润、库存、履约、客户、合规和现金流这些老板每天要拍板的事，变成可预警、可审批、可派单、可复盘的经营闭环。以下 10 个场景按“对收入和利润的影响、决策频次、数据基础、协同复杂度、闭环可行性”排序，帮助管理层判断先从哪里试点，怎样最快看到结果。</p>
+        </div>
+        <aside class="rank-note" aria-label="优先级规则">
+          <span><b>01 直接 ROI</b>是否直接影响收入、毛利、成本、现金流。</span>
+          <span><b>02 高频决策</b>是否每天/每周重复发生，适合 Agent 持续监控。</span>
+          <span><b>03 数据可得</b>是否已有交易、库存、价格、履约、SaaS 等数据。</span>
+          <span><b>04 协同复杂</b>是否需要跨采购、仓配、运营、BD、质量等部门。</span>
+          <span><b>05 可闭环</b>是否能从预警、审批、派单到复盘形成闭环。</span>
+        </aside>
+      </div>
+    </section>
+    <section class="cards" id="cards" aria-label="十个经营场景"></section>
+    <div class="footer">
+      <span>说明：页面中的经营数据为基于公开资料构造的模拟演示数据，不代表药师帮内部真实经营数据；收益目标为试点测算口径，不构成承诺。</span>
+      <div class="home-actions">
+        <a class="btn-link" href="http://hipilot.ai/diagnosis" target="_blank" rel="noopener">启动经营诊断</a>
+      </div>
+    </div>
   </main>
+
   <main id="flow" class="view">
-    <header class="flow-head"><div class="flow-inner"><div class="flow-row"><button class="back" onclick="backHome()">← 返回</button><div class="scene-title" id="sceneTitle"></div><span class="pill" id="scenePill"></span></div><div class="tabs" id="tabs"></div></div></header>
-    <section class="workspace"><div class="chat" id="chat"></div><aside class="side"><div class="box"><div class="label">场景边界</div><div class="desc" id="boundary"></div></div><div class="box"><div class="label">Agent 班子</div><div id="agents"></div></div><div class="box" style="flex:1;min-height:180px"><div class="label">决策进度</div><div class="timeline" id="timeline"></div></div></aside></section>
+    <header class="flow-head">
+      <div class="flow-head-inner">
+        <div class="flow-top">
+          <button class="back" type="button" onclick="goHome()">‹ 返回十场景</button>
+          <span class="scene-icon" id="sceneIcon"></span>
+          <span class="scene-name" id="sceneName"></span>
+          <span class="scene-meta" id="sceneMeta"></span>
+          <span class="pill">点击 / 空格 / Enter 推进</span>
+        </div>
+        <nav class="tabs" id="tabs" aria-label="切换经营场景"></nav>
+      </div>
+    </header>
+    <section class="workspace">
+      <div class="chat" id="chat"></div>
+      <aside class="side">
+        <div class="box">
+          <div class="label">本场景</div>
+          <div class="desc" id="sceneDesc"></div>
+        </div>
+        <div class="box">
+          <div class="label">独立边界</div>
+          <div class="desc" id="sceneBoundary"></div>
+        </div>
+        <div class="box">
+          <div class="label">参与 AGENT</div>
+          <div id="agentList"></div>
+        </div>
+        <div class="box grow">
+          <div class="label">协作时间线</div>
+          <div class="timeline-wrap"><div id="timelineBox"></div></div>
+        </div>
+      </aside>
+      <div class="rail" aria-hidden="true">
+        <button class="rail-btn" type="button" id="upBtn">↑</button>
+        <button class="rail-btn" type="button" id="downBtn">↓</button>
+      </div>
+    </section>
   </main>
 </div>
+
 <script>
-const groups={roi:["直接 ROI","#e85d31"],ops:["运营效率","#11845b"],risk:["合规/数据","#6f6fd8"],sys:["管理系统","#101010"]};
-const scenes=[
-{p:"P1",g:"roi",u:"自营利润",t:"自营采库价联动",q:"缺货、滞销、低价竞争直接影响收入和毛利",k:"缺货损失下降 / 毛利保全",b:"只管自营商品经营决策：采购、库存、跨仓调拨、定价、缺货/滞销。",sig:"华东某自有品牌 OTC SKU 7 日缺货概率 84%，华北同批次库存 21 天。",agents:["自营经营官","采购库存官","定价利润官","仓配调拨官","质量合规官"]},
-{p:"P2",g:"roi",u:"平台治理",t:"平台商品治理",q:"SKU、商家、价格和履约异常不能靠人工巡检",k:"异常处理时长下降",b:"只管平台侧商家、商品、价格、履约异常治理。",sig:"3,200 个 SKU 价格异常，420 个商家存在履约延迟风险。",agents:["平台治理官","商家质量官","价格监控官","履约异常官","运营任务官"]},
-{p:"P3",g:"roi",u:"药店增长",t:"药店一店一策",q:"药店不只要便宜进货，更要会补、会卖、会复购",k:"复购率 / BD 人效",b:"只管 B2B 买家增长：分层、复购、补货、BD 行动。",sig:"2,840 家高潜药店 30 天采购频次下降 18%。",agents:["药店经营顾问","客户分群官","品类机会官","BD 行动官","复购触达官"]},
-{p:"P4",g:"ops",u:"仓配履约",t:"仓配履约优化",q:"高频小单下平衡时效、成本和异常闭环",k:"SLA 稳定 / 单均成本",b:"只管订单生成后的仓内作业、线路、时效、异常和成本。",sig:"华东 48 小时小单峰值预计 +26%，9 城 SLA 有跌破风险。",agents:["履约网络官","波峰预测官","仓内排班官","线路路由官","异常处理官"]},
-{p:"P5",g:"ops",u:"厂牌协同",t:"厂牌首推增长",q:"把厂商预算、铺货、动销和复购做成增长闭环",k:"促销 ROI / 复投率",b:"只管厂商合作、首推新品、联合营销和预算复盘。",sig:"某新品首月动销低于目标 23%，新增复购客户占比仅 17%。",agents:["厂牌增长官","区域铺货官","促销 ROI 官","药店执行官","联合复盘官"]},
-{p:"P6",g:"ops",u:"自有品牌",t:"自有品牌经营",q:"从单个爆品转向 SKU 生命周期和利润结构管理",k:"高毛利占比",b:"只管自有品牌从立项、组合、供应、铺货到淘汰。",sig:"32 个 SKU 进入增长窗口，17 个 SKU 毛利低于目标。",agents:["品牌组合官","新品孵化官","渠道铺货官","供应协同官","SKU 淘汰官"]},
-{p:"P7",g:"risk",u:"质量合规",t:"质量追溯风控",q:"追溯码、资质、批次和权限必须嵌入动作前",k:"重大风险事件 0",b:"只管质量、资质、批次、追溯码、权限和审计风控。",sig:"一批次商品追溯码采集断点，预计影响 1,200 单。",agents:["追溯监察官","资质审核官","经营影响官","替代推荐官","审计记录官"]},
-{p:"P8",g:"risk",u:"药店 SaaS",t:"药店 SaaS 协同",q:"让门店任务、会员复购和终端动销形成数据回流",k:"SaaS 活跃 / 任务完成",b:"只管药店 SaaS 产品使用、门店任务、会员触达和终端复购。",sig:"活跃门店 30 日下降 12%，复购提醒完成率仅 34%。",agents:["SaaS 经营官","门店任务官","会员复购官","店员培训官","数据回流官"]},
-{p:"P9",g:"sys",u:"财务经营",t:"财务经营预警",q:"月中发现毛利、库存资金、现金流和预算偏差",k:"利润质量预警",b:"只管经营财务指标、利润质量、资金占用、应收应付和现金流预警。",sig:"收入增长 17%，但毛利率环比下降 0.6 个点。",agents:["财务驾驶舱官","毛利诊断官","资金周转官","应收应付官","预算控制官"]},
-{p:"P10",g:"sys",u:"战略闭环",t:"战略任务闭环",q:"把季度战役拆成负责人、指标、会议和复盘节奏",k:"任务闭环率",b:"只管公司级战略目标、季度战役、负责人、会议纪要和复盘机制。",sig:"跨部门行动项超过 160 条，42% 任务没有复盘口径。",agents:["CEO 战略官","战役规划官","组织任务官","经营复盘官","管理会议官"]}
+const COLORS = ["#e85d31", "#2f6fd6", "#16805a", "#7a58d6", "#b46a00", "#c24b74", "#13839b", "#6f6fd8", "#5f6773", "#171717"];
+const SCENES = [
+  {
+    rank: 1,
+    unit: "自营利润",
+    title: "自营采购、库存、定价联动",
+    icon: "📦",
+    accent: COLORS[0],
+    score: "P1 · 直接 ROI 最高",
+    reason: "200 亿级自营主盘，缺货、滞销、低价竞争会直接影响收入和毛利。",
+    boundary: "只管自营商品经营决策：采购、库存、跨仓调拨、定价、缺货/滞销。不管平台商家治理，也不管仓内现场排班。",
+    trigger: "华东某自有品牌 OTC SKU 7 日缺货概率 84%，华北同批次库存 21 天，竞品价格下探 2.1%，预计 7 日毛利风险 8.4 万元。",
+    kpi: "缺货损失下降、毛利保全、库存周转改善",
+    lead: "自营经营官",
+    userRole: "自营事业部负责人",
+    agents: [["lead","自营经营官","📦","规模与利润统筹"],["a1","采购库存官","🧮","补货与库存"],["a2","定价利润官","💰","价格与毛利"],["a3","仓配调拨官","🚚","跨仓履约"],["a4","质量合规官","🛡️","批次与追溯"]],
+    metrics: [["缺货概率","84%","高风险","#b83a2d"],["华东库存","5.6天","低于安全线","#b83a2d"],["华北库存","21天","动销 -14%","#e85d31"],["毛利风险","8.4万","7 日测算","#b83a2d"]],
+    chart: [["华东",56],["安全线",90],["华北",210],["华南",72],["西南",68]],
+    user1: "授权。我要保重点客户不断货，但不能全区降价把毛利打穿。",
+    analysis1: "库存侧拆因：华东不是单日突刺，而是连续 14 天动销上移；华北具备调拨条件，但需要先锁定批次、效期和运输时效。",
+    insightTitle: "库存、价格、毛利联动洞察",
+    insights: [["区域错配是主因","华东缺货和华北滞销同时存在，优先跨仓而不是盲目加采。","high"],["不建议公开跟价","竞品降价尚未造成大面积流失，全区降价会牺牲价格体系。","high"],["重点客户先保供","TOP 客户贡献该 SKU 62% 订单，应优先锁库存和配送承诺。","medium"]],
+    user2: "跨仓可以，但批次、效期、追溯码和运输时效必须先过质量线。",
+    analysis2: "定价侧建议：不做公开降价，仅对高流失风险客户做定向保供券；同时用调拨库存覆盖 TOP 800 家客户。",
+    options: [["⭐ A 跨仓调拨 + 局部稳价","华北调拨 11,000 件，重点客户锁库存，定向券处理流失风险。","保毛利 / 降缺货","#11845b","48小时"],["B 加急采购 + 全区降价","短期追量，但毛利和价格体系受损。","保销量 / 伤利润","#b83a2d","3-5天"],["C 替代品推荐 + 限量供给","降低短期缺货损失，但影响自有品牌心智。","低风险 / 弱增长","#3164d8","当天"]],
+    decision: "选 A。跨仓调拨 + 局部稳价 + 重点客户保供，任务拆给采购、仓配、BD 和质量。",
+    tasks: [["采购库存官","🧮","冻结华北可调库存并发起 7+14 天滚动补货单","2小时","🟢 已派发"],["仓配调拨官","🚚","华北到华东跨仓调拨 11,000 件","48小时","🟡 进行中"],["定价利润官","💰","生成 TOP 客户定向保供券，不做公开降价","当天","🟢 已生成"],["质量合规官","🛡️","校验批次、效期、资质和追溯码后放行","当天","🔵 待审批"]],
+    expected: "7 日复盘：缺货率下降 13-18 个点，预计毛利保全 5.6-7.2 万元，重点客户满足率维持 96% 以上。"
+  },
+  {
+    rank: 2,
+    unit: "平台治理",
+    title: "平台商品、商家、价格与履约治理",
+    icon: "🧬",
+    accent: COLORS[1],
+    score: "P2 · 自动化空间最大",
+    reason: "420 万级 SKU 和大量商家异常，人工巡检无法覆盖，Agent 可直接降低运营成本和投诉风险。",
+    boundary: "只管平台侧商家、商品、价格、履约异常治理。不管自营库存所有权，也不管药店客户经营策略。",
+    trigger: "某区域 3,200 个 SKU 出现价格竞争异常，420 个商家存在履约延迟风险，86 个 SKU 疑似重复铺货，人工当日预计只能处理 18%。",
+    kpi: "异常处理时长下降、人工审核量下降、投诉率下降",
+    lead: "平台治理官",
+    userRole: "平台业务负责人",
+    agents: [["lead","平台治理官","🧬","异常分流"],["a1","商家质量官","🏷️","商家分层"],["a2","价格监控官","📉","价格异常"],["a3","履约异常官","⏱️","发货与库存"],["a4","运营任务官","✅","派单闭环"]],
+    metrics: [["月度 SKU","420万","治理复杂","#3164d8"],["价格异常","3,200","需聚类","#e85d31"],["履约风险商家","420","需分层","#b83a2d"],["人工覆盖","18%","明显不足","#b83a2d"]],
+    chart: [["高危",74],["中危",386],["低危",812],["提醒",1900],["误报",28]],
+    user1: "授权。但要避免误杀商家，高风险治理动作必须能解释、能人工审批。",
+    analysis1: "商家侧拆解：异常集中在 68 个中小商家，其中 19 个商家连续 3 天低价引流但发货延迟。",
+    insightTitle: "平台异常聚类洞察",
+    insights: [["低价不是唯一风险","低价但履约稳定的商家可以保留，低价叠加延迟和库存滞后才是高危。","high"],["异常集中度高","68 个商家贡献 61% 异常，优先治理即可降低大部分投诉风险。","high"],["治理要可解释","每条限流、提醒、整改都保留价格、库存、履约、投诉证据。","medium"]],
+    user2: "价格异常和履约异常不要分开处理，很多投诉是低价商家履约跟不上导致的。",
+    analysis2: "价格履约交叉看，高危组合是价格低于区域均值 6%+、48 小时发货率下降、库存更新滞后。",
+    options: [["⭐ A 风险分级自动分流","高风险人工审批，中风险派单，低风险自动提醒并复查。","高效率 / 可控风险","#11845b","7天上线"],["B 全部人工审核","风险低但处理慢，异常持续堆积。","稳但慢","#3164d8","持续"],["C 投诉后处理","节省前置运营，但伤害药店体验和平台信任。","被动 / 高损害","#b83a2d","被动"]],
+    decision: "选 A。按风险等级自动分流，高风险人工审批，普通异常由 Agent 派单。",
+    tasks: [["平台治理官","🧬","生成高/中/低三类异常治理队列与解释依据","当天","🟢 已生成"],["商家质量官","🏷️","对 68 个重点异常商家发起整改任务","D+1","🟡 进行中"],["价格监控官","📉","设置区域价格异常阈值与二次复查规则","D+2","🟡 进行中"],["运营任务官","✅","把 386 条中风险异常派给商家运营并跟踪闭环","D+3","🔵 已排期"]],
+    expected: "14 日复盘：人工审核量下降 60%+，高风险异常处理时长降到 24 小时内，平台投诉率下降 8-12%。"
+  },
+  {
+    rank: 3,
+    unit: "B2B 增长",
+    title: "药店客户增长与一店一策",
+    icon: "🏪",
+    accent: COLORS[2],
+    score: "P3 · 客户规模杠杆大",
+    reason: "月均付费买家量级大，药店复购和钱包份额提升，对平台交易和 BD 人效都有直接价值。",
+    boundary: "只管药店/诊所等 B2B 买家增长：分层、复购、补货、BD 行动。不管药店 SaaS 的会员运营产品功能。",
+    trigger: "2,840 家高潜药店 30 天采购频次下降 18%，慢病用药复购下降 11%，季节性 OTC 转化低于同区域均值 16%。",
+    kpi: "复购率、品类渗透、BD 人效提升",
+    lead: "药店经营顾问",
+    userRole: "B2B 运营负责人",
+    agents: [["lead","药店经营顾问","🏪","一店一策"],["a1","客户分群官","🧑‍💼","客户价值分层"],["a2","品类机会官","🧴","品类缺口"],["a3","BD 行动官","☎️","拜访任务"],["a4","复购触达官","🔁","复购提醒"]],
+    metrics: [["高潜药店","2,840家","需干预","#e85d31"],["采购频次","-18%","30 天环比","#b83a2d"],["慢病复购","-11%","低于预期","#b83a2d"],["OTC 转化","-16%","低于同区","#e85d31"]],
+    chart: [["慢病",82],["呼吸",64],["肠胃",58],["儿科",71],["保健",46]],
+    user1: "授权。不要给我泛泛客户分层，我要能直接派给 BD 的行动包。",
+    analysis1: "客户分群侧看，问题不是所有药店都缺价格优惠，而是高潜药店的补货节奏、品类组合和会员复购动作断档。",
+    insightTitle: "药店经营机会洞察",
+    insights: [["发券不是万能","约 42% 药店的问题是选品缺口，发券只能短期刺激。","high"],["慢病复购断点明显","复购周期到期但未补货的会员集中在高血压、糖尿病和心脑血管用药。","high"],["季节窗口已打开","呼吸、肠胃、儿童常备药进入区域动销窗口，需要 7 天内完成补货建议。","medium"]],
+    user2: "药店老板不会看复杂报表，输出必须是能执行的补货清单、陈列建议和一句话沟通理由。",
+    analysis2: "品类侧已生成一店一策模板：每家药店给 12-28 个建议 SKU，分为必补、可替代、高毛利搭配三类。",
+    options: [["⭐ A 一店一策经营包","按药店画像生成补货、陈列、促销、会员触达和 BD 话术。","高采纳 / 高人效","#11845b","7天试点"],["B 统一发券促销","快速刺激下单，但无法提升药店经营能力。","短期有效 / 易透支","#e85d31","当天"],["C 电话回访","依赖 BD 经验和时间，覆盖面有限。","低自动化 / 难复制","#3164d8","14天"]],
+    decision: "选 A。先给高潜药店做一店一策，BD 只跟进高价值动作。",
+    tasks: [["药店经营顾问","🏪","生成首批 500 家一店一策经营包","当天","🟢 已生成"],["品类机会官","🧴","输出每店 12-28 个建议 SKU 和替代 SKU","当天","🟢 已完成"],["BD 行动官","☎️","生成拜访优先级与电话话术","D+1","🟡 进行中"],["复购触达官","🔁","生成慢病复购提醒模板和药店触达建议","D+2","🔵 已排期"]],
+    expected: "7 日复盘：药店补货采纳率目标 35%+，重点客户采购频次回升 8-12%，BD 人均有效动作数提升 2 倍。"
+  },
+  {
+    rank: 4,
+    unit: "仓配履约",
+    title: "高频小单履约成本与 SLA 优化",
+    icon: "🚚",
+    accent: COLORS[3],
+    score: "P4 · 成本和体验双杠杆",
+    reason: "医药 B2B 高频小单对仓配成本和客户体验影响大，Agent 可持续做波峰预测、排班、路由和异常处理。",
+    boundary: "只管订单生成后的仓内作业、线路、时效、异常和成本。不决定采购量、销售价格和平台商家治理。",
+    trigger: "华东 48 小时小单峰值预计 +26%，拣货人效低于目标 14%，当日达 SLA 有 9 个城市存在跌破风险，每单履约成本预计上升 0.42 元。",
+    kpi: "SLA 稳定、每单成本下降、异常订单减少",
+    lead: "履约网络官",
+    userRole: "仓配运营负责人",
+    agents: [["lead","履约网络官","🚚","网络统筹"],["a1","波峰预测官","🌊","订单波峰"],["a2","仓内排班官","👷","人效排班"],["a3","线路路由官","🗺️","配送线路"],["a4","异常处理官","⚠️","异常闭环"]],
+    metrics: [["小单峰值","+26%","48 小时预测","#e85d31"],["拣货人效","-14%","低于目标","#b83a2d"],["SLA 风险","9城","需干预","#b83a2d"],["单均成本","+0.42元","预计上升","#e85d31"]],
+    chart: [["预测",126],["产能",102],["拣货",86],["路由",92],["SLA",88]],
+    user1: "授权。不能只靠临时加人，先看哪些城市、哪些仓、哪些线路真的会爆。",
+    analysis1: "波峰侧拆因：高峰集中在华东 3 个中心仓和 9 个城市，订单多为低客单、高频常用品，仓内拣货和末端路由同时承压。",
+    insightTitle: "履约瓶颈洞察",
+    insights: [["不是全网爆仓","风险集中在 3 个仓和 9 个城市，精准调度即可。","high"],["仓内瓶颈先于配送瓶颈","拣货波峰比线路更早出现，需提前排班和波次切分。","high"],["异常可前置拦截","缺货替代、地址异常、承运商容量不足可提前派单。","medium"]],
+    user2: "加班可以，但要看单均成本和 SLA，不能为了保时效把成本打爆。",
+    analysis2: "排班侧建议：只对 3 个高压仓加临时班次；低压仓跨区支援部分前置打包任务，线路侧改用承运商组合。",
+    options: [["⭐ A 精准排班 + 路由重配","只对高压仓加班，调整 9 城线路和承运商组合。","保 SLA / 控成本","#11845b","48小时"],["B 全网加班保时效","简单但成本高，低压仓也被动加班。","稳时效 / 高成本","#e85d31","当天"],["C 放宽 SLA","成本最低，但损害药店体验。","低成本 / 伤体验","#b83a2d","当天"]],
+    decision: "选 A。只对高压仓和高风险城市做精准调度，保 SLA 同时控成本。",
+    tasks: [["波峰预测官","🌊","生成 48 小时仓/城/线路订单波峰预测","1小时","🟢 已生成"],["仓内排班官","👷","调整 3 个中心仓波次和临时班次","当天","🟡 进行中"],["线路路由官","🗺️","重配 9 城承运商组合和时效承诺","当天","🟡 进行中"],["异常处理官","⚠️","提前处理缺货替代、地址异常和容量不足订单","D+1","🔵 已排期"]],
+    expected: "48 小时复盘：高风险城市 SLA 保持 96%+，单均履约成本增幅控制在 0.12 元以内，异常订单提前拦截 70%+。"
+  },
+  {
+    rank: 5,
+    unit: "厂牌协同",
+    title: "厂牌首推与联合增长",
+    icon: "🤝",
+    accent: COLORS[4],
+    score: "P5 · 商业化增量明确",
+    reason: "厂牌首推能带来厂商预算和高毛利增量，AI 可把新品铺货、终端动销、促销 ROI 和复盘报告闭环。",
+    boundary: "只管外部厂商合作、首推新品、联合营销和预算复盘。不管药师帮自有品牌立项，也不管普通药店采购运营。",
+    trigger: "某厂牌首推新品首月动销低于目标 23%，华南铺货率达标但复购低于华东 9 个百分点，促销券消耗高，新增复购客户占比仅 17%。",
+    kpi: "首推动销率、促销 ROI、厂商复投率",
+    lead: "厂牌增长官",
+    userRole: "厂牌合作负责人",
+    agents: [["lead","厂牌增长官","🤝","首推目标"],["a1","区域铺货官","📍","铺货分层"],["a2","促销 ROI 官","🎯","预算效率"],["a3","药店执行官","🛒","终端动作"],["a4","联合复盘官","📈","厂商报告"]],
+    metrics: [["首月动销","-23%","低于目标","#b83a2d"],["华南铺货","达标","但复购弱","#e85d31"],["复购差距","-9pp","低于华东","#b83a2d"],["新增复购","17%","券效偏低","#e85d31"]],
+    chart: [["铺货",82],["陈列",41],["触达",28],["动销",57],["复购",17]],
+    user1: "授权。厂商问的不是曝光多少，而是为什么动销没达标、预算下一轮该不该继续给。",
+    analysis1: "区域侧拆解：华南铺货达标，但门店陈列、会员触达和店员话术执行率不足，导致首推没有形成复购。",
+    insightTitle: "厂牌首推异常洞察",
+    insights: [["铺货不等于动销","华南门店铺货达标，但陈列和会员提醒未完成，复购弱。","high"],["预算要跟执行力绑定","高执行门店复购率比普通门店高 9-14 个百分点。","high"],["厂商要证据链","需要解释预算为何转移、下一轮如何投，而不是只给活动总结。","medium"]],
+    user2: "不要只给厂商看平台交易，我要看到终端门店动作有没有发生。",
+    analysis2: "ROI 侧建议：暂停低 ROI 门店预算，把预算转向有陈列、会员触达和同品类动销基础的门店。",
+    options: [["⭐ A 目标药店重选 + 预算重配","按门店执行力和会员触达能力重圈目标，预算投向高执行门店。","高 ROI / 可复制","#11845b","14天"],["B 继续扩大促销预算","短期拉交易，但不能解释复购弱的问题。","高消耗 / 不可控","#b83a2d","7天"],["C 暂停新品铺货","控制损失，但影响厂商合作信心。","保守 / 伤合作","#3164d8","立即"]],
+    decision: "选 A。用终端执行数据重选目标药店，并把预算从低 ROI 区域挪出来。",
+    tasks: [["厂牌增长官","🤝","输出二阶段首推方案和预算调整说明","D+1","🟢 已生成"],["区域铺货官","📍","重选目标药店并调整区域铺货节奏","D+2","🟡 进行中"],["促销 ROI 官","🎯","暂停低 ROI 门店预算，转投高执行门店","D+3","🟡 进行中"],["联合复盘官","📈","生成给厂商的动销、复购、预算复盘报告","D+14","🔵 已排期"]],
+    expected: "30 日复盘：目标门店复购率提升 6-9 个百分点，促销 ROI 提升 15-22%，形成可复制厂牌首推模板。"
+  },
+  {
+    rank: 6,
+    unit: "自有品牌",
+    title: "自有品牌全生命周期经营",
+    icon: "🏷️",
+    accent: COLORS[5],
+    score: "P6 · 高毛利结构变量",
+    reason: "自有品牌高速增长后，关键不是单个 SKU 缺货，而是选品、供应、铺货、淘汰的体系化经营。",
+    boundary: "只管药师帮自有品牌从立项、组合、供应、铺货到淘汰。不管外部厂牌首推，也不管日常自营库存定价。",
+    trigger: "12 个自有品牌、1,200+ SKU 中，32 个 SKU 进入增长窗口，17 个 SKU 毛利低于目标，9 个 SKU 在重点区域断供风险上升。",
+    kpi: "新品成功率、高毛利占比、SKU 淘汰效率",
+    lead: "品牌组合官",
+    userRole: "自有品牌负责人",
+    agents: [["lead","品牌组合官","🏷️","品牌组合"],["a1","新品孵化官","🧪","选品立项"],["a2","渠道铺货官","🧭","区域铺货"],["a3","供应协同官","🏭","产能与供应"],["a4","SKU 淘汰官","🧹","低效清理"]],
+    metrics: [["品牌数量","12个","公开背景","#3164d8"],["SKU 数量","1,200+","组合复杂","#3164d8"],["增长窗口","32个","需加速","#11845b"],["低效 SKU","17个","需处理","#e85d31"]],
+    chart: [["孵化",32],["铺货",68],["爆发",54],["低毛利",17],["淘汰",24]],
+    user1: "授权。我要把自有品牌从“爆品靠经验”变成可复制系统。",
+    analysis1: "新品侧看，增长窗口集中在家庭常备、慢病辅助和季节性 OTC，但部分 SKU 供应产能和区域铺货节奏跟不上。",
+    insightTitle: "自有品牌组合洞察",
+    insights: [["不能只追 SKU 数","高毛利、高复购、高确定性供应的 SKU 才值得加速。","high"],["铺货节奏要分区","华东和华南适合加速，低动销区域不应同步铺货。","medium"],["低效 SKU 要退出","低毛利、低复购、供应不稳 SKU 需要进入淘汰队列。","high"]],
+    user2: "新增 SKU 要谨慎，别让自有品牌变成新的库存负担。",
+    analysis2: "渠道侧建议：把 SKU 分为加速、观察、修复、淘汰四类；加速 SKU 配供应保障，淘汰 SKU 配清理计划。",
+    options: [["⭐ A 四象限 SKU 经营","加速、观察、修复、淘汰分层经营，配供应和铺货动作。","控风险 / 提毛利","#11845b","30天"],["B 全部增长 SKU 加铺","短期规模快，但库存和供应风险高。","高增长 / 高风险","#e85d31","14天"],["C 暂停新品","降低风险，但错过高毛利窗口。","保守 / 失机会","#3164d8","立即"]],
+    decision: "选 A。按四象限管理自有品牌 SKU，把供应、铺货、淘汰同步跑起来。",
+    tasks: [["品牌组合官","🏷️","生成 1,200+ SKU 四象限经营清单","D+3","🟢 已生成"],["新品孵化官","🧪","输出高潜新品立项评分和验证样本","D+7","🟡 进行中"],["供应协同官","🏭","锁定加速 SKU 产能和备货节奏","D+10","🟡 进行中"],["SKU 淘汰官","🧹","制定低效 SKU 清理和替代计划","D+14","🔵 已排期"]],
+    expected: "60 日复盘：加速 SKU 动销提升 15%+，低效 SKU 库存占用下降 10-15%，新品立项决策周期缩短 50%。"
+  },
+  {
+    rank: 7,
+    unit: "质量合规",
+    title: "质量、追溯、资质与风控闭环",
+    icon: "🛡️",
+    accent: COLORS[6],
+    score: "P7 · 高风险刚需",
+    reason: "医药流通不能只追求效率，追溯码、资质、批次、医保结算风险必须嵌入经营动作。",
+    boundary: "只管质量、资质、批次、追溯码、权限和审计风控。不负责商业增长方案本身，只负责风险拦截与替代动作。",
+    trigger: "一批次商品追溯码采集断点，同时关联平台促销和医保结算订单，预计影响 1,200 单，涉及 43 家药店和 2 个区域仓。",
+    kpi: "重大风险事件 0、风险关闭时长下降、审计留痕完整",
+    lead: "追溯监察官",
+    userRole: "质量合规负责人",
+    agents: [["lead","追溯监察官","🛡️","追溯码监控"],["a1","资质审核官","📄","供应商资质"],["a2","经营影响官","📊","订单与客户影响"],["a3","替代推荐官","🔁","替代品方案"],["a4","审计记录官","🧾","留痕复盘"]],
+    metrics: [["影响订单","1,200单","需拦截","#b83a2d"],["涉及药店","43家","需通知","#e85d31"],["区域仓","2个","需冻结","#e85d31"],["风险等级","高","需审批","#b83a2d"]],
+    chart: [["追溯",72],["资质",92],["订单",120],["客户",43],["替代",66]],
+    user1: "授权。经营动作可以慢一点，但质量和追溯风险不能放过去。",
+    analysis1: "资质侧核验：供应商资质有效，但该批次追溯码采集存在断点；需要先冻结异常批次，再判定可替代批次。",
+    insightTitle: "合规风险与经营影响洞察",
+    insights: [["风险不应后置处理","若促销上线后再发现问题，会影响医保结算和药店信任。","high"],["可替代批次存在","同品类有 3 个合规批次可替代，但库存分布不均。","medium"],["审计链必须完整","每个冻结、替代、通知、放行动作都要留痕。","high"]],
+    user2: "冻结可以，但要同步告诉经营团队影响多少订单，以及替代品怎么补。",
+    analysis2: "经营影响侧测算：立即冻结异常批次影响 1,200 单，但替代方案可覆盖 78% 需求，剩余由 BD 定向沟通。",
+    options: [["⭐ A 冻结异常批次 + 替代推荐","暂停异常批次，给药店推荐合规替代，并要求供应商整改。","控风险 / 保经营","#11845b","当天"],["B 只暂停高风险客户","影响小但风险仍会扩散。","局部控制 / 留隐患","#e85d31","当天"],["C 先销售后补审","经营不中断，但合规风险不可接受。","禁止","#b83a2d","不可选"]],
+    decision: "选 A。冻结异常批次，给出替代推荐和客户通知，所有动作进入审计留痕。",
+    tasks: [["追溯监察官","🛡️","冻结异常批次并标记受影响订单","立即","🟢 已执行"],["替代推荐官","🔁","生成 3 个合规替代批次和药店推荐话术","2小时","🟡 进行中"],["经营影响官","📊","同步订单、客户、毛利影响给经营负责人","当天","🟡 进行中"],["审计记录官","🧾","沉淀冻结、替代、通知、整改全链路留痕","D+1","🔵 已排期"]],
+    expected: "72 小时复盘：异常批次风险关闭，替代覆盖 78%+ 需求，重大合规事件为 0，审计材料自动归档。"
+  },
+  {
+    rank: 8,
+    unit: "药店 SaaS",
+    title: "药店 SaaS 与会员复购运营",
+    icon: "🖥️",
+    accent: COLORS[7],
+    score: "P8 · 协同数据资产",
+    reason: "SaaS 能把药店终端动销、会员触达和门店任务数字化，是连接 B2B 交易和厂牌协同的关键数据资产。",
+    boundary: "只管药店 SaaS 产品使用、门店任务、会员触达和终端复购。不管 B2B 进货客户增长，也不管厂商预算分配。",
+    trigger: "首批 SaaS 药店中，活跃门店 30 日下降 12%，慢病会员复购提醒完成率仅 34%，陈列任务拍照回传率 41%。",
+    kpi: "SaaS 活跃、会员复购、门店任务完成率",
+    lead: "SaaS 经营官",
+    userRole: "药店 SaaS 负责人",
+    agents: [["lead","SaaS 经营官","🖥️","产品活跃"],["a1","门店任务官","📌","陈列与任务"],["a2","会员复购官","🔁","慢病会员"],["a3","店员培训官","🎓","操作培训"],["a4","数据回流官","🧠","动销数据"]],
+    metrics: [["活跃门店","-12%","30 日下降","#e85d31"],["复购提醒","34%","完成率低","#b83a2d"],["陈列回传","41%","执行不足","#e85d31"],["培训完成","58%","需提升","#e85d31"]],
+    chart: [["活跃",88],["提醒",34],["陈列",41],["培训",58],["回流",62]],
+    user1: "授权。SaaS 不能只看装机，要看药店到底有没有做经营动作。",
+    analysis1: "门店任务侧看，活跃下降的核心不是登录少，而是任务没有形成闭环：陈列、会员提醒、复购回访没有被店员持续执行。",
+    insightTitle: "SaaS 门店动作洞察",
+    insights: [["装机不是价值","只有门店任务、会员触达和动销回流发生，SaaS 才能贡献经营数据。","high"],["慢病复购可标准化","复购周期明确，适合 Agent 自动生成提醒和店员任务。","high"],["培训影响留存","培训完成率低的门店，任务完成率低 18 个百分点。","medium"]],
+    user2: "把动作做简单，药店店员不可能每天看复杂后台。",
+    analysis2: "会员侧建议：把 SaaS 动作压缩成每日 3 个任务：今日必回访会员、今日必补陈列、今日必看动销异常。",
+    options: [["⭐ A 每日三任务 + 会员复购闭环","把复杂 SaaS 功能变成店员每天可执行的 3 个动作。","高活跃 / 高复购","#11845b","14天"],["B 增加功能培训","改善认知但不保证执行闭环。","慢改善","#3164d8","30天"],["C 只做登录激励","活跃数据好看，但经营价值弱。","虚假活跃","#b83a2d","7天"]],
+    decision: "选 A。把 SaaS 改成每日经营任务，不追装机，追动作闭环。",
+    tasks: [["SaaS 经营官","🖥️","生成门店每日三任务模板","D+3","🟢 已生成"],["会员复购官","🔁","按慢病复购周期生成会员提醒任务","D+5","🟡 进行中"],["店员培训官","🎓","给低完成门店推 5 分钟操作训练","D+7","🟡 进行中"],["数据回流官","🧠","把任务完成和动销结果回流经营看板","D+14","🔵 已排期"]],
+    expected: "30 日复盘：SaaS 任务完成率提升到 65%+，慢病会员复购提醒完成率提升 20 个点，活跃门店回升 10-15%。"
+  },
+  {
+    rank: 9,
+    unit: "财务经营",
+    title: "利润、现金流与资金周转预警",
+    icon: "💹",
+    accent: COLORS[8],
+    score: "P9 · 管理层提效",
+    reason: "财务不是事后报表，而应提前预警毛利、库存资金、应收应付和现金流压力，驱动经营动作。",
+    boundary: "只管经营财务指标、利润质量、资金占用、应收应付和现金流预警。不替代业务部门做具体采购、销售、仓配动作。",
+    trigger: "某月收入增长 17%，但毛利率环比下降 0.6 个点，库存周转预计拉长 3.2 天，部分供应商付款压力提前暴露。",
+    kpi: "利润质量预警、库存资金释放、现金流稳定",
+    lead: "财务驾驶舱官",
+    userRole: "CFO / 财务负责人",
+    agents: [["lead","财务驾驶舱官","💹","经营财务"],["a1","毛利诊断官","📉","毛利结构"],["a2","资金周转官","💸","库存与现金"],["a3","应收应付官","🧾","账期风险"],["a4","预算控制官","📊","预算与预警"]],
+    metrics: [["收入增长","+17%","表面良好","#11845b"],["毛利率","-0.6pp","质量下降","#b83a2d"],["库存周转","+3.2天","资金占用","#e85d31"],["付款压力","提前","需预警","#e85d31"]],
+    chart: [["收入",117],["毛利",94],["库存",103],["应收",98],["现金",91]],
+    user1: "授权。不要等月末关账，我要在月中看到利润质量问题。",
+    analysis1: "毛利侧拆解：收入增长主要来自低毛利自营品类和区域促销，高毛利自有品牌占比未同步提升。",
+    insightTitle: "利润质量预警洞察",
+    insights: [["收入增长掩盖毛利压力","如果只看收入，管理层会错过毛利结构恶化。","high"],["库存资金开始拉长","部分低动销 SKU 占用资金，影响后续采购弹性。","high"],["账期需要经营联动","供应商付款压力和库存周转需同时看，不能只由财务单独处理。","medium"]],
+    user2: "财务预警要能派到业务负责人，不能只是财务部自己看。",
+    analysis2: "资金侧建议：把毛利下降拆到品类、区域、负责人，同时将库存资金占用关联采购限额和清理任务。",
+    options: [["⭐ A 月中利润质量预警 + 业务派单","毛利、库存、现金流异常自动拆到业务负责人。","提前干预","#11845b","月中"],["B 月末财务复盘","报表准确但发现太晚。","准确 / 滞后","#3164d8","月末"],["C 只看收入目标","简单但会牺牲利润质量。","高风险","#b83a2d","持续"]],
+    decision: "选 A。月中就做利润质量预警，并把动作派到业务负责人。",
+    tasks: [["财务驾驶舱官","💹","生成月中利润质量预警看板","D+1","🟢 已生成"],["毛利诊断官","📉","拆解毛利下降到品类、区域和责任人","D+2","🟡 进行中"],["资金周转官","💸","输出库存资金占用清单和释放建议","D+3","🟡 进行中"],["预算控制官","📊","设置采购、促销、厂牌预算预警阈值","D+5","🔵 已排期"]],
+    expected: "当月复盘：提前识别毛利异常，低效库存资金释放 3-5%，重点预算偏差在月中被纠正。"
+  },
+  {
+    rank: 10,
+    unit: "战略闭环",
+    title: "战略战役规划与组织任务闭环",
+    icon: "🧭",
+    accent: COLORS[9],
+    score: "P10 · 依赖前九类数据",
+    reason: "战略场景价值高，但必须建立在前九类经营数据和动作闭环之上，因此作为管理层总控层排在第 10。",
+    boundary: "只管公司级战略目标、季度战役、负责人、会议纪要和复盘机制。不替代前九类场景的具体业务执行。",
+    trigger: "年度目标拆到季度后，跨部门行动项超过 160 条，经营会议中 38% 任务缺少明确责任人，42% 任务没有复盘口径。",
+    kpi: "战略目标下钻、任务闭环率、经营会议效率",
+    lead: "CEO 战略官",
+    userRole: "药师帮 CEO",
+    agents: [["lead","CEO 战略官","🧭","战略拆解"],["a1","战役规划官","🗺️","季度战役"],["a2","组织任务官","📌","责任人与任务"],["a3","经营复盘官","🔍","偏差复盘"],["a4","管理会议官","📝","会议纪要"]],
+    metrics: [["行动项","160+","需归并","#e85d31"],["无责任人","38%","需绑定","#b83a2d"],["无复盘口径","42%","需补齐","#b83a2d"],["会议时长","3h+","可压缩","#e85d31"]],
+    chart: [["战略",100],["战役",74],["任务",62],["责任",58],["复盘",54]],
+    user1: "授权。我要的是下一季度到底打哪几场仗、谁负责、每周看什么。",
+    analysis1: "战役侧拆解：现有目标过多，建议归并为自营利润、平台治理、药店增长、厂牌协同、履约成本五个季度战役。",
+    insightTitle: "战略到行动断点洞察",
+    insights: [["目标太多会稀释组织注意力","160+ 行动项应归并成少数经营战役。","high"],["责任人缺失影响闭环","没有责任人和验收口径的任务，会在下一次会议继续讨论。","high"],["复盘要回到数据","每个战役必须绑定前九类经营数据，而不是只写进度。","medium"]],
+    user2: "战略可以重组，但不要变成口号。每个战役必须关联真实经营指标。",
+    analysis2: "组织侧建议：每个战役绑定一个业务负责人、一个财务指标、一个过程指标、一个 Agent 预警阈值和一个复盘节奏。",
+    options: [["⭐ A 五大战役 + 周度经营闭环","把年度目标拆成五大战役，每周由 Agent 追踪偏差和任务。","高闭环","#11845b","季度"],["B 维持原 OKR","改动小，但执行仍分散。","低阻力 / 弱闭环","#3164d8","持续"],["C 只做会议纪要自动化","提高记录效率，但不解决经营闭环。","低价值","#b83a2d","立即"]],
+    decision: "选 A。把下一季度目标拆成五大战役，每个战役绑定负责人、指标和复盘节奏。",
+    tasks: [["CEO 战略官","🧭","生成下一季度五大战役地图","D+2","🟢 已生成"],["组织任务官","📌","绑定每个战役负责人、指标和验收口径","D+5","🟡 进行中"],["经营复盘官","🔍","设置周度偏差预警和复盘模板","D+7","🟡 进行中"],["管理会议官","📝","把会议纪要自动转成任务和下周检查项","D+7","🔵 已排期"]],
+    expected: "季度复盘：经营会议时长下降 30%+，任务闭环率提升到 85%+，战略偏差能在周度被发现和纠正。"
+  }
 ];
-let current=0,step=0;
-const $=id=>document.getElementById(id), cards=$("cards"), chat=$("chat"), timeline=$("timeline");
-function esc(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m]))}
-function renderCards(){cards.innerHTML=scenes.map((s,i)=>{const [label,color]=groups[s.g];return `<article class="scene" style="--accent:${color}" onclick="enter(${i})"><div class="scene-top"><span class="rank">${s.p}</span><span class="group">${label}</span></div><h3>${esc(s.t)}</h3><p>${esc(s.q)}</p><div class="kpi"><span class="dot"></span>${esc(s.k)}</div></article>`}).join("")}
-function enter(i){current=i;step=0;const s=scenes[i], [label,color]=groups[s.g];$("home").classList.remove("on");$("flow").classList.add("on");$("sceneTitle").textContent=`${s.p} · ${s.t}`;$("scenePill").textContent=label;$("boundary").textContent=s.b;$("tabs").innerHTML=scenes.map((x,j)=>`<button class="tab ${j===i?"on":""}" onclick="enter(${j})">${x.p} ${x.u}</button>`).join("");$("agents").innerHTML=s.agents.map((a,j)=>`<div class="agent" id="a${j}"><span class="emoji">${["🧭","🧮","💰","🚚","🛡️"][j]}</span><b>${esc(a)}</b><span>待命</span></div>`).join("");timeline.innerHTML="";chat.innerHTML='<div class="empty">当前场景已就绪。点击页面、按空格或 Enter，查看 HiPilot 多 Agent 如何从经营信号推进到审批和任务闭环。</div>'}
-function backHome(){$("flow").classList.remove("on");$("home").classList.add("on")}
-function actor(s,idx){return idx%2?["业务负责人","我"]:[s.agents[Math.min(idx,s.agents.length-1)],"Hi"]}
-function messages(s){return [
-["agent",`我捕捉到经营信号：${s.sig} 建议拉起多 Agent 作战室，先判断影响金额和执行约束。`],
-["card","data"],
-["me","授权分析。我要看到 A/B/C 方案，且不能牺牲合规和利润底线。"],
-["agent",`已拆解：这个场景边界是“${s.b}” 先在边界内形成可审批动作，避免跨场景重复派单。`],
-["card","plan"],
-["me","选择推荐方案，进入任务派发。"],
-["card","task"],
-["agent",`7-30 日后复盘 ${s.k}，沉淀为该场景的经营记忆。`]
-]}
-function card(kind,s){if(kind==="data")return `<div class="card"><div class="card-title">经营信号数据卡</div><div class="metrics"><div class="metric"><div class="k">触发信号</div><b>高</b></div><div class="metric"><div class="k">影响范围</div><b>区域级</b></div><div class="metric"><div class="k">协同部门</div><b>4+</b></div><div class="metric"><div class="k">建议优先级</div><b>${s.p}</b></div></div></div>`;if(kind==="plan")return `<div class="card"><div class="card-title">三套可审批方案</div><div class="options"><div class="option best"><b>⭐ A 低风险闭环方案</b><span>${s.k}</span></div><div class="option"><b>B 快速刺激方案</b><span>短期有效，利润承压</span></div><div class="option"><b>C 保守观察方案</b><span>低风险，但错过窗口</span></div></div></div>`;return `<div class="card"><div class="card-title">任务已派发</div>${s.agents.slice(1,5).map((a,i)=>`<div class="task"><span>${["🧮","💰","🚚","🛡️"][i]}</span><div><b>${esc(a)}</b><div class="desc">生成执行清单、负责人和复盘口径</div></div><span class="status">已派发</span></div>`).join("")}</div>`}
-function advance(){const s=scenes[current], list=messages(s); if(step>=list.length)return; if(step===0)chat.innerHTML=""; const [role,content]=list[step]; const [name,av]=actor(s,step); const div=document.createElement("div"); div.className=`msg ${role==="me"?"me":""}`; div.innerHTML=`<div class="avatar">${av}</div><div><div class="who">${esc(name)}</div>${role==="card"?card(content,s):`<div class="bubble">${esc(content)}</div>`}</div>`; chat.appendChild(div); if(role!=="me"){document.querySelectorAll(".agent").forEach((x,j)=>{if(j<=Math.min(step,4))x.className="agent on";x.querySelector("span:last-child").textContent=j<=Math.min(step,4)?"工作中":"待命"})} timeline.insertAdjacentHTML("beforeend",`<div class="tl"><span>${String(step+1).padStart(2,"0")}</span><b>${role==="me"?"负责人审批":"Agent 推进"}</b></div>`); step++; chat.scrollTop=chat.scrollHeight}
-document.addEventListener("click",e=>{if(e.target.closest("button,.scene,a"))return;if($("flow").classList.contains("on"))advance()});
-document.addEventListener("keydown",e=>{if((e.key===" "||e.key==="Enter")&&$("flow").classList.contains("on")){e.preventDefault();advance()}});
+
+const KIND = { text: "发言", data: "数据卡", handoff: "交接", insight: "洞察卡", plan: "方案卡", action: "行动卡" };
+const home = document.getElementById("home");
+const flow = document.getElementById("flow");
+const cards = document.getElementById("cards");
+const chat = document.getElementById("chat");
+const agentList = document.getElementById("agentList");
+const timelineBox = document.getElementById("timelineBox");
+let current = 0;
+let step = 0;
+let mode = "home";
+let typing = false;
+let typingTimer = null;
+let typingEl = null;
+let typingText = "";
+
+function esc(text) {
+  return String(text || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+function agentObjects(scene) {
+  return scene.agents.map((agent, index) => ({
+    id: agent[0],
+    name: agent[1],
+    emoji: agent[2],
+    role: agent[3],
+    color: index === 0 ? scene.accent : COLORS[(scene.rank + index) % COLORS.length]
+  }));
+}
+
+function messages(scene) {
+  const agents = agentObjects(scene);
+  const triggerText = scene.trigger.replace(/[。.!！?？]+$/, "");
+  return [
+    { role: "agent", kind: "text", agentId: "lead", text: `我捕捉到一个高优先级经营信号：${triggerText}。这个场景排在 P${scene.rank}，原因是：${scene.reason}我建议拉 ${agents.slice(1,4).map(a => a.name).join("、")} 一起做经营推演。`, delay: 1.2 },
+    { role: "agent", kind: "data", agentId: "lead", delay: 3.4 },
+    { role: "user", kind: "text", text: scene.user1, delay: 5.6 },
+    { role: "agent", kind: "handoff", agentId: "lead", delay: 7.8 },
+    { role: "agent", kind: "text", agentId: "a1", text: scene.analysis1, delay: 10.0 },
+    { role: "agent", kind: "insight", agentId: "a1", delay: 12.2 },
+    { role: "user", kind: "text", text: scene.user2, delay: 14.4 },
+    { role: "agent", kind: "text", agentId: "a2", text: scene.analysis2, delay: 16.6 },
+    { role: "agent", kind: "plan", agentId: "lead", delay: 18.8 },
+    { role: "user", kind: "text", text: scene.decision, delay: 21.0 },
+    { role: "agent", kind: "text", agentId: "lead", text: `已按推荐方案生成任务闭环。这个场景的独立边界已锁定：${scene.boundary}接下来只追踪本场景指标，避免和其他经营场景重复派单。`, delay: 23.2 },
+    { role: "agent", kind: "action", agentId: "lead", delay: 25.4 }
+  ];
+}
+
+function illustration(scene) {
+  return `<svg viewBox="0 0 600 160" preserveAspectRatio="xMidYMid slice"><g fill="none" stroke="${scene.accent}" stroke-opacity=".34" stroke-width="1.6"><circle cx="160" cy="80" r="48"/><circle cx="160" cy="80" r="26"/><path d="M210 80 L390 40 M210 80 L430 80 M210 80 L390 120"/></g><g fill="${scene.accent}" fill-opacity=".42"><circle cx="405" cy="40" r="10"/><circle cx="445" cy="80" r="12"/><circle cx="405" cy="120" r="8"/><rect x="485" y="48" width="58" height="64" rx="10" opacity=".34"/></g></svg>`;
+}
+
+function renderCards() {
+  cards.innerHTML = SCENES.map((scene, index) => `
+    <article class="scene-card" style="--scene-color:${scene.accent}" onclick="enterFlow(${index})" tabindex="0" onkeydown="if(event.key==='Enter')enterFlow(${index})">
+      <div class="scene-visual" style="background:linear-gradient(135deg, ${scene.accent}22, ${scene.accent}0b 55%, #fff 100%)">
+        ${illustration(scene)}
+        <span class="rank">P${scene.rank} · ${esc(scene.unit)}</span>
+        <span class="score">${esc(scene.score.replace(/^P\\d+ · /, ""))}</span>
+      </div>
+      <div class="scene-body">
+        <div class="scene-main">
+          <div class="unit" style="color:${scene.accent}">${esc(scene.unit)}</div>
+          <h2>${esc(scene.title)}</h2>
+          <p class="reason">${esc(scene.reason)}</p>
+          <div class="kpi" style="color:${scene.accent}"><i style="background:${scene.accent}"></i>${esc(scene.kpi)}</div>
+        </div>
+        <div class="scene-side">
+          <p class="boundary"><b>独立边界：</b>${esc(scene.boundary)}</p>
+          <p class="trigger"><b>演示触发：</b>${esc(scene.trigger)}</p>
+        </div>
+      </div>
+    </article>
+  `).join("");
+}
+
+function goHome() {
+  finishTyping();
+  mode = "home";
+  home.classList.add("on");
+  flow.classList.remove("on");
+}
+
+function enterFlow(index) {
+  finishTyping();
+  current = index;
+  step = 0;
+  mode = "flow";
+  const scene = SCENES[index];
+  const agents = agentObjects(scene);
+  home.classList.remove("on");
+  flow.classList.add("on");
+  document.getElementById("sceneIcon").textContent = scene.icon;
+  document.getElementById("sceneIcon").style.background = `${scene.accent}18`;
+  document.getElementById("sceneName").textContent = `P${scene.rank} · ${scene.title}`;
+  document.getElementById("sceneMeta").textContent = `· ${scene.unit} · Agent 经营作战室`;
+  document.getElementById("sceneDesc").textContent = `${scene.reason} ${scene.trigger}`;
+  document.getElementById("sceneBoundary").textContent = scene.boundary;
+  document.getElementById("tabs").innerHTML = SCENES.map((item, i) => `<button class="tab ${i === index ? "on" : ""}" type="button" onclick="enterFlow(${i})">P${item.rank} ${item.unit}</button>`).join("");
+  chat.innerHTML = `<div class="empty-tip">当前场景已就绪。点击页面、按空格或 Enter，查看 HiPilot 多 Agent 如何从经营信号推进到审批和任务闭环。</div>`;
+  timelineBox.innerHTML = "";
+  agentList.innerHTML = agents.map(agent => `
+    <div class="agent-row" id="agent-${agent.id}">
+      <span class="emoji" style="background:${agent.color}18">${agent.emoji}</span>
+      <div>
+        <div class="nm">${esc(agent.name)}</div>
+        <div class="rl">${esc(agent.role)}</div>
+      </div>
+      <span class="state">待命</span>
+    </div>
+  `).join("");
+}
+
+function actor(scene, message) {
+  if (message.role === "user") return { name: scene.userRole, emoji: "👤", color: "#101010" };
+  return agentObjects(scene).find(agent => agent.id === message.agentId);
+}
+
+function setAgent(scene, agentId) {
+  agentObjects(scene).forEach((agent) => {
+    const row = document.getElementById(`agent-${agent.id}`);
+    if (!row) return;
+    const state = row.querySelector(".state");
+    if (agent.id === agentId) {
+      row.className = "agent-row on";
+      state.textContent = "工作中";
+    } else if (row.classList.contains("on")) {
+      row.className = "agent-row done";
+      state.textContent = "已完成";
+    }
+  });
+}
+
+function addTimeline(message, actorInfo) {
+  timelineBox.insertAdjacentHTML("beforeend", `
+    <div class="tl-row">
+      <span class="tl-dot" style="background:${actorInfo.color}"></span>
+      <span class="tl-main">${esc(actorInfo.name)} · ${KIND[message.kind]}</span>
+      <span class="tl-time">${message.delay.toFixed(1)}s</span>
+    </div>
+  `);
+}
+
+function severityColor(severity) {
+  if (severity === "high") return "#b83a2d";
+  if (severity === "medium") return "#e85d31";
+  return "#11845b";
+}
+
+function renderDataCard(scene) {
+  const max = Math.max(...scene.chart.map(item => item[1]));
+  return `
+    <div class="card" style="border-left-color:${scene.accent}">
+      <div class="card-title">📊 P${scene.rank} 经营信号数据卡</div>
+      <div class="kpis">
+        ${scene.metrics.map(metric => `
+          <div class="metric-card">
+            <div class="k">${esc(metric[0])}</div>
+            <div class="v">${esc(metric[1])}</div>
+            <div class="t" style="color:${metric[3]}">${esc(metric[2])}</div>
+          </div>
+        `).join("")}
+      </div>
+      <div class="chart">
+        ${scene.chart.map(item => `
+          <div class="col">
+            <div class="bar" style="height:${Math.max(8, item[1] / max * 100)}%;background:${scene.accent}"></div>
+            <div class="chart-label">${esc(item[0])}</div>
+          </div>
+        `).join("")}
+      </div>
+      <div class="summary">经营判断：${esc(scene.trigger)}</div>
+    </div>
+  `;
+}
+
+function renderHandoff(scene) {
+  const agents = agentObjects(scene);
+  return `
+    <div class="handoff">
+      <span class="big">${agents[0].emoji}</span>
+      <div><b>${esc(agents[0].name)}</b></div>
+      <span class="arrow">→</span>
+      <span class="big">${agents[1].emoji}</span>
+      <div>
+        <b>${esc(agents[1].name)}</b>
+        <span>先做原因拆解，再交给 ${esc(agents[2].name)} 输出方案约束。目标：把预警变成可审批经营方案。</span>
+      </div>
+    </div>
+  `;
+}
+
+function renderInsight(scene) {
+  return `
+    <div class="card" style="border-left-color:${scene.accent}">
+      <div class="card-title">🔍 ${esc(scene.insightTitle)}</div>
+      ${scene.insights.map(item => `
+        <div class="find">
+          <span class="sev" style="background:${severityColor(item[2])}"></span>
+          <div><b>${esc(item[0])}</b><span>${esc(item[1])}</span></div>
+        </div>
+      `).join("")}
+      <div class="rec">建议：进入方案卡审批，不让部门各自行动，避免重复派单或局部最优。</div>
+    </div>
+  `;
+}
+
+function renderPlan(scene) {
+  return `
+    <div class="card" style="border-left-color:${scene.accent}">
+      <div class="card-title">📋 决策建议：三套可审批方案</div>
+      ${scene.options.map(option => `
+        <div class="option ${option[0].includes("⭐") ? "best" : ""}">
+          <div class="option-label">${esc(option[0])}</div>
+          <div class="option-desc">${esc(option[1])}</div>
+          <div>
+            <div class="impact" style="color:${option[3]}">${esc(option[2])}</div>
+            <div class="timeline">周期 ${esc(option[4])}</div>
+          </div>
+        </div>
+      `).join("")}
+      <div class="consensus">Agent 共识：推荐带 ⭐ 的方案，因为它能在本场景边界内闭环，不把问题转嫁给其他场景。</div>
+    </div>
+  `;
+}
+
+function renderAction(scene) {
+  return `
+    <div class="card" style="border-left-color:${scene.accent}">
+      <div class="card-title">🚀 任务已派发：${esc(scene.title)}</div>
+      ${scene.tasks.map(task => `
+        <div class="step">
+          <span class="step-emoji">${task[1]}</span>
+          <div>
+            <div class="step-agent">${esc(task[0])}</div>
+            <div class="step-task">${esc(task[2])}</div>
+            <div class="deadline">截止 ${esc(task[3])}</div>
+          </div>
+          <span class="status">${esc(task[4])}</span>
+        </div>
+      `).join("")}
+      <div class="expected">${esc(scene.expected)}</div>
+    </div>
+  `;
+}
+
+function renderCard(scene, kind) {
+  if (kind === "data") return renderDataCard(scene);
+  if (kind === "handoff") return renderHandoff(scene);
+  if (kind === "insight") return renderInsight(scene);
+  if (kind === "plan") return renderPlan(scene);
+  if (kind === "action") return renderAction(scene);
+  return "";
+}
+
+function nearBottom() {
+  return chat.scrollHeight - chat.scrollTop - chat.clientHeight < 70;
+}
+
+function scrollBottom() {
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function finishTyping() {
+  if (!typing) return;
+  clearInterval(typingTimer);
+  if (typingEl) {
+    typingEl.textContent = typingText;
+    typingEl.classList.remove("typing");
+  }
+  typing = false;
+  typingEl = null;
+  typingText = "";
+}
+
+function startTyping(el, text) {
+  typing = true;
+  typingEl = el;
+  typingText = text;
+  el.classList.add("typing");
+  let i = 0;
+  typingTimer = setInterval(() => {
+    el.textContent = text.slice(0, ++i);
+    if (nearBottom()) scrollBottom();
+    if (i >= text.length) finishTyping();
+  }, 16);
+}
+
+function emitNext() {
+  const scene = SCENES[current];
+  const plan = messages(scene);
+  const message = plan[step];
+  if (!message) return;
+  if (step === 0) chat.innerHTML = "";
+  const actorInfo = actor(scene, message);
+  const messageEl = document.createElement("div");
+  messageEl.className = `msg ${message.role === "user" ? "me" : ""}`;
+  const body = message.kind === "text" ? `<div class="bubble"></div>` : renderCard(scene, message.kind);
+  messageEl.innerHTML = `
+    <div class="avatar" style="background:${actorInfo.color}">${actorInfo.emoji}</div>
+    <div class="message-content">
+      <div class="who">${esc(actorInfo.name)}</div>
+      ${body}
+    </div>
+  `;
+  chat.appendChild(messageEl);
+  if (message.role !== "user") setAgent(scene, message.agentId);
+  addTimeline(message, actorInfo);
+  step += 1;
+  scrollBottom();
+  if (message.kind === "text") startTyping(messageEl.querySelector(".bubble"), message.text);
+}
+
+function advance() {
+  if (mode !== "flow") return;
+  if (typing) {
+    finishTyping();
+    return;
+  }
+  if (!nearBottom()) {
+    scrollBottom();
+    return;
+  }
+  if (step < messages(SCENES[current]).length) emitNext();
+}
+
+document.addEventListener("click", (event) => {
+  if (event.target.closest("a,button,.scene-card,.tab,.back,.rail-btn")) return;
+  advance();
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === " " || event.key === "Enter") {
+    if (mode === "flow") {
+      event.preventDefault();
+      advance();
+    }
+  }
+});
+
+document.getElementById("upBtn").addEventListener("click", () => chat.scrollBy({ top: -360, behavior: "smooth" }));
+document.getElementById("downBtn").addEventListener("click", scrollBottom);
 renderCards();
 </script>
 </body>

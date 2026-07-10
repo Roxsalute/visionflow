@@ -980,7 +980,26 @@ document.addEventListener("keydown", (event) => {
 
 document.getElementById("upBtn").addEventListener("click", () => chat.scrollBy({ top: -360, behavior: "smooth" }));
 document.getElementById("downBtn").addEventListener("click", scrollBottom);
-renderCards();
+
+function ensureCardsRendered() {
+  const firstCard = cards.firstElementChild;
+  const isComplete = cards.children.length === SCENES.length
+    && firstCard
+    && firstCard.classList.contains("scene-card")
+    && firstCard.querySelector(".scene-body h2");
+  if (!isComplete) renderCards();
+}
+
+ensureCardsRendered();
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", ensureCardsRendered, { once: true });
+}
+window.addEventListener("load", ensureCardsRendered, { once: true });
+window.addEventListener("pageshow", ensureCardsRendered);
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden) ensureCardsRendered();
+});
+requestAnimationFrame(ensureCardsRendered);
 </script>
 </body>
 </html>
